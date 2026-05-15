@@ -1,0 +1,1493 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>340B Daily Intelligence</title>
+<meta name="description" content="Time-organized, sourced corpus of 340B Drug Pricing Program developments — litigation, HRSA, manufacturer, legislation, oversight.">
+<style>
+  :root {
+    --bg: #fafafa;
+    --surface: #ffffff;
+    --border: #e5e7eb;
+    --border-strong: #d1d5db;
+    --text: #111827;
+    --text-muted: #4b5563;
+    --text-faint: #6b7280;
+    --accent: #1e40af;
+    --accent-soft: #eef2ff;
+    --hi: #b91c1c;
+    --hi-bg: #fef2f2;
+    --med: #b45309;
+    --med-bg: #fffbeb;
+    --lo: #4b5563;
+    --lo-bg: #f3f4f6;
+    --chip-bg: #f1f5f9;
+    --chip-border: #cbd5e1;
+    --today: #ecfdf5;
+    --today-border: #a7f3d0;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0b0d10;
+      --surface: #14181d;
+      --border: #1f2933;
+      --border-strong: #2a3441;
+      --text: #e6e8ec;
+      --text-muted: #a5acb8;
+      --text-faint: #7a818d;
+      --accent: #93c5fd;
+      --accent-soft: #1e293b;
+      --hi: #fca5a5;
+      --hi-bg: #2a1212;
+      --med: #fcd34d;
+      --med-bg: #2a2010;
+      --lo: #cbd5e1;
+      --lo-bg: #1a1f26;
+      --chip-bg: #1a212a;
+      --chip-border: #2a3441;
+      --today: #0c1f1a;
+      --today-border: #1d4a3e;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  header.site {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+  .site-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 14px 22px;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .site-title {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .site-title .accent { color: var(--accent); }
+  .site-meta {
+    color: var(--text-muted);
+    font-size: 13px;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .site-meta b { color: var(--text); font-weight: 600; }
+  .cat-counts {
+    margin-left: auto;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    font-size: 12px;
+  }
+  .cat-counts span {
+    background: var(--chip-bg);
+    border: 1px solid var(--chip-border);
+    padding: 2px 8px;
+    border-radius: 999px;
+    color: var(--text-muted);
+  }
+  .cat-counts span b { color: var(--text); font-weight: 600; margin-left: 4px; }
+
+  main { max-width: 1180px; margin: 0 auto; padding: 24px; }
+
+  .controls {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 22px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  @media (min-width: 900px) {
+    .controls { grid-template-columns: 1.5fr 1fr 1fr; }
+  }
+  .control-block label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 6px;
+  }
+  .filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .chip {
+    background: var(--chip-bg);
+    border: 1px solid var(--chip-border);
+    color: var(--text-muted);
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    user-select: none;
+    line-height: 1.2;
+  }
+  .chip.active {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  input[type="text"], input[type="date"], select {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    padding: 8px 10px;
+    color: var(--text);
+    font: inherit;
+    font-size: 14px;
+  }
+  input[type="text"]:focus, input[type="date"]:focus, select:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: -1px;
+    border-color: var(--accent);
+  }
+  .date-row { display: flex; gap: 8px; }
+  .date-row > div { flex: 1; }
+  .clear-btn {
+    background: none;
+    border: 1px solid var(--border-strong);
+    color: var(--text-muted);
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 12px;
+  }
+  .clear-btn:hover { color: var(--text); border-color: var(--text-faint); }
+
+  .day-group {
+    margin-bottom: 28px;
+  }
+  .day-heading {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+    margin: 8px 0 14px;
+  }
+  .today-banner {
+    background: var(--today);
+    border: 1px solid var(--today-border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .today-banner b { font-weight: 600; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+  .cat {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 11px;
+  }
+  .pri {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .pri::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: currentColor;
+  }
+  .pri-high { color: var(--hi); background: var(--hi-bg); }
+  .pri-medium { color: var(--med); background: var(--med-bg); }
+  .pri-low { color: var(--lo); background: var(--lo-bg); }
+  .subcat { color: var(--text-muted); }
+  .event-date { color: var(--text-faint); margin-left: auto; font-size: 12px; }
+
+  .card h3 {
+    font-size: 16px;
+    line-height: 1.35;
+    margin: 0 0 6px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+  .card .summary {
+    color: var(--text);
+    font-size: 14.5px;
+    max-width: 72ch;
+    margin: 6px 0 10px;
+  }
+  .pri-rationale {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin: 0 0 10px;
+    max-width: 72ch;
+    font-style: italic;
+  }
+  .actors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 8px;
+  }
+  .actor {
+    background: var(--chip-bg);
+    border: 1px solid var(--chip-border);
+    color: var(--text-muted);
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .sources {
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .sources ul { list-style: none; padding: 0; margin: 4px 0 0; }
+  .sources li { margin: 2px 0; }
+  .sources .pub { color: var(--text-faint); font-size: 12px; margin-left: 4px; }
+  .updates {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border);
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .updates ul { list-style: none; padding-left: 0; margin: 4px 0 0; }
+  .updates li { margin: 2px 0; }
+  .updates .date { color: var(--text-faint); margin-right: 6px; }
+
+  .empty {
+    text-align: center;
+    color: var(--text-faint);
+    padding: 60px 20px;
+    font-size: 14px;
+  }
+  .footer-note {
+    text-align: center;
+    color: var(--text-faint);
+    font-size: 12px;
+    padding: 32px 16px 16px;
+  }
+
+  /* Phone */
+  @media (max-width: 640px) {
+    header.site { padding: 14px 16px; }
+    main { padding: 16px; }
+    .site-title { font-size: 16px; }
+    .cat-counts { margin-left: 0; width: 100%; }
+    .event-date { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="site-row">
+    <h1 class="site-title">340B <span class="accent">Daily Intelligence</span></h1>
+    <div class="site-meta">
+      <span>Updated <b id="last-updated">2026-05-15</b></span>
+      <span>Entries <b id="total-count">0</b></span>
+      <span>Today's adds <b id="today-count">27</b></span>
+    </div>
+    <div class="cat-counts" id="cat-counts"></div>
+  </div>
+</header>
+
+<main>
+  <section class="today-banner" id="today-banner" style="display:none">
+    Pinned: <b id="today-banner-count">0</b> new entries added today (<span id="today-banner-date"></span>). Scroll for the rest of the corpus, most recent first.
+  </section>
+
+  <section class="controls" aria-label="Filters">
+    <div class="control-block">
+      <label>Category</label>
+      <div class="filter-chips" id="cat-filter"></div>
+    </div>
+    <div class="control-block">
+      <label>Priority</label>
+      <div class="filter-chips" id="pri-filter"></div>
+    </div>
+    <div class="control-block">
+      <label for="q">Search</label>
+      <input type="text" id="q" placeholder="title, summary, tags, actors&hellip;">
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <div style="flex:1">
+          <label for="from" style="margin-top:6px">From</label>
+          <input type="date" id="from">
+        </div>
+        <div style="flex:1">
+          <label for="to" style="margin-top:6px">To</label>
+          <input type="date" id="to">
+        </div>
+        <div style="display:flex; align-items:flex-end">
+          <button class="clear-btn" id="clear-btn" type="button">Clear</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="feed"></section>
+
+  <div class="footer-note">
+    Self-contained static site. All data embedded; no external assets, no tracking.
+    Generated from <code>corpus.json</code>.
+  </div>
+</main>
+
+<script>
+const CORPUS = [
+  {
+    "id": "2025-12-29-maine-rebate-pi",
+    "date_added": "2026-05-15",
+    "event_date": "2025-12-29",
+    "category": "litigation",
+    "subcategory": "D. Maine — rebate model",
+    "title": "D. Maine grants nationwide preliminary injunction halting 340B rebate model pilot",
+    "summary": "The U.S. District Court for the District of Maine granted AHA, the Maine Hospital Association, and four safety-net systems a nationwide preliminary injunction blocking HRSA's 340B Rebate Model Pilot Program. The court held HHS likely violated the APA, calling the administrative record 'threadbare' and finding the agency failed to weigh upfront-payment and rebate-delay burdens on covered entities. Implementation, scheduled for January 1, 2026, was paused.",
+    "key_actors": [
+      "AHA",
+      "Maine Hospital Association",
+      "HRSA",
+      "HHS",
+      "D. Maine"
+    ],
+    "priority": "high",
+    "priority_rationale": "Blocked a structural change to how 340B discounts flow; foundational ruling for everything that followed in early 2026.",
+    "sources": [
+      {
+        "title": "Court Issues Nationwide Preliminary Injunction of the 340B Rebate Model Pilot Program",
+        "url": "https://www.healthlawdiagnosis.com/2025/12/court-issues-nationwide-preliminary-injunction-of-the-340b-rebate-model-pilot-program/",
+        "publisher": "Health Law Diagnosis",
+        "date": "2025-12-30"
+      },
+      {
+        "title": "Federal District Court Pauses Scheduled Implementation of Rebate Pilot Program",
+        "url": "https://www.quarles.com/newsroom/publications/340b-program-alert-federal-district-court-pauses-scheduled-implementation-of-rebate-pilot-program",
+        "publisher": "Quarles",
+        "date": "2025-12-30"
+      }
+    ],
+    "tags": [
+      "rebate model",
+      "APA",
+      "preliminary injunction",
+      "D. Maine"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-01-08-1stcir-stay-denied",
+    "date_added": "2026-05-15",
+    "event_date": "2026-01-07",
+    "category": "litigation",
+    "subcategory": "1st Circuit — rebate model",
+    "title": "1st Circuit denies HHS emergency stay of rebate-pilot injunction",
+    "summary": "The First Circuit denied the government's motion for an administrative stay of the District of Maine's preliminary injunction, finding HHS had not shown likelihood of success on appeal. The order kept the pilot frozen and preserved the upfront-discount status quo while appellate briefing was set to proceed.",
+    "key_actors": [
+      "1st Circuit",
+      "HHS",
+      "AHA"
+    ],
+    "priority": "high",
+    "priority_rationale": "Confirmed the injunction would hold pending appeal — the first signal HHS's appeal was likely to fail.",
+    "sources": [
+      {
+        "title": "1st Circuit denies stay, upholds district court's halt of 340B rebate program",
+        "url": "https://www.aha.org/news/headline/2026-01-08-1st-circuit-denies-stay-upholds-district-courts-halt-340b-rebate-program",
+        "publisher": "AHA News",
+        "date": "2026-01-08"
+      },
+      {
+        "title": "AHA Statement on Appeals Court Upholding Halt of 340B Rebate Program",
+        "url": "https://www.aha.org/press-releases/2026-01-08-aha-statement-appeals-court-upholding-halt-340b-rebate-program",
+        "publisher": "AHA",
+        "date": "2026-01-08"
+      }
+    ],
+    "tags": [
+      "rebate model",
+      "1st Circuit",
+      "stay denied"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-01-20-hhs-drops-appeal",
+    "date_added": "2026-05-15",
+    "event_date": "2026-01-20",
+    "category": "litigation",
+    "subcategory": "Rebate model appeal",
+    "title": "Government drops appeal of rebate-pilot preliminary injunction",
+    "summary": "HHS withdrew its appeal of the District of Maine's preliminary injunction in the AHA 340B rebate-model litigation. The dismissal foreshadowed the agency's later concession that it would scrap the pilot in its existing form rather than continue defending it.",
+    "key_actors": [
+      "HHS",
+      "AHA",
+      "1st Circuit"
+    ],
+    "priority": "high",
+    "priority_rationale": "Effectively conceded the legal fight over the pilot as designed; reset the policy timeline for 340B rebates.",
+    "sources": [
+      {
+        "title": "Government drops appeal of preliminary injunction order in AHA 340B lawsuit on rebate model program",
+        "url": "https://www.aha.org/news/headline/2026-01-20-government-drops-appeal-preliminary-injunction-order-aha-340b-lawsuit-rebate-model-program",
+        "publisher": "AHA News",
+        "date": "2026-01-20"
+      }
+    ],
+    "tags": [
+      "rebate model",
+      "appeal dismissed"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-02-05-hhs-scraps-pilot",
+    "date_added": "2026-05-15",
+    "event_date": "2026-02-05",
+    "category": "hrsa",
+    "subcategory": "Rebate model pilot",
+    "title": "HHS signals it will scrap current 340B Rebate Model Pilot Program",
+    "summary": "HHS told the court and stakeholders it would not pursue the pilot in its current form and agreed with plaintiffs that vacatur and remand would best serve judicial economy. The agency left open the possibility of designing a new rebate model within its statutory authority.",
+    "key_actors": [
+      "HHS",
+      "HRSA",
+      "AHA"
+    ],
+    "priority": "high",
+    "priority_rationale": "Operational status quo confirmed for covered entities; explicit reset of the rebate-model policy track.",
+    "sources": [
+      {
+        "title": "HHS says it will scrap current 340B Rebate Model Program",
+        "url": "https://www.aha.org/news/headline/2026-02-05-hhs-says-it-will-scrap-current-340b-rebate-model-program",
+        "publisher": "AHA News",
+        "date": "2026-02-05"
+      },
+      {
+        "title": "Following legal setbacks, HHS agrees to toss 340B Rebate Model Pilot Program",
+        "url": "https://www.fiercehealthcare.com/providers/hospital-groups-file-lawsuit-enjoin-pharma-supported-340b-rebate-pilot",
+        "publisher": "Fierce Healthcare",
+        "date": "2026-02-05"
+      }
+    ],
+    "tags": [
+      "rebate model",
+      "HHS",
+      "policy reset"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-02-10-court-vacates-pilot",
+    "date_added": "2026-05-15",
+    "event_date": "2026-02-10",
+    "category": "litigation",
+    "subcategory": "D. Maine — vacatur",
+    "title": "District court vacates and remands the 340B Rebate Model Pilot Program",
+    "summary": "In AHA v. Kennedy, the D. Maine entered a vacatur and remand order that formally wiped out HRSA's pilot notice and the underlying manufacturer approvals, sending the matter back to the agency. Covered entities continue to receive upfront 340B discounts; no rebate workflow is in effect and no pilot-mandated claims data submission is required.",
+    "key_actors": [
+      "D. Maine",
+      "HRSA",
+      "HHS",
+      "AHA"
+    ],
+    "priority": "high",
+    "priority_rationale": "Confirms there is no operative rebate pilot — eliminates near-term implementation risk for covered entities.",
+    "sources": [
+      {
+        "title": "Federal Court Halts HHS 340B Rebate Model Pilot Program: Key Takeaways",
+        "url": "https://www.maynardnexsen.com/publication-federal-court-halts-hhs-340b-rebate-model-pilot-program-key-takeaways-for-stakeholders",
+        "publisher": "Maynard Nexsen",
+        "date": "2026-02-11"
+      },
+      {
+        "title": "340B Drug Rebate Models: Status and Litigation Update",
+        "url": "https://www.bassberry.com/news/340b-drug-rebate-models-status-and-litigation-update/",
+        "publisher": "Bass, Berry & Sims",
+        "date": "2026-02-12"
+      }
+    ],
+    "tags": [
+      "rebate model",
+      "vacatur",
+      "remand"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-02-26-hrsa-rfi-issued",
+    "date_added": "2026-05-15",
+    "event_date": "2026-02-26",
+    "category": "hrsa",
+    "subcategory": "RFI",
+    "title": "HRSA publishes Request for Information on a potential 340B rebate mechanism",
+    "summary": "After the pilot vacatur, HRSA published an RFI in the Federal Register seeking input on whether and how rebates could be used to effectuate the 340B ceiling price within the agency's statutory authority. The comment period ran through April 20, 2026.",
+    "key_actors": [
+      "HRSA",
+      "HHS"
+    ],
+    "priority": "medium",
+    "priority_rationale": "Reopens the rebate-model question without binding policy; comment record will shape any future rulemaking.",
+    "sources": [
+      {
+        "title": "Request for Information: 340B Rebate Model Pilot Program Extension",
+        "url": "https://www.federalregister.gov/documents/2026/02/26/2026-03838/request-for-information-340b-rebate-model-pilot-program-extension",
+        "publisher": "Federal Register",
+        "date": "2026-02-26"
+      },
+      {
+        "title": "340B Rebate Model Pilot Program",
+        "url": "https://www.hrsa.gov/opa/340b-model-pilot-program",
+        "publisher": "HRSA",
+        "date": "2026-02-26"
+      }
+    ],
+    "tags": [
+      "RFI",
+      "rebate model",
+      "Federal Register"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-04-20-aha-rfi-comment",
+    "date_added": "2026-05-15",
+    "event_date": "2026-04-20",
+    "category": "stakeholder",
+    "subcategory": "AHA comment letter",
+    "title": "AHA urges HRSA to abandon any 340B rebate model in RFI comment",
+    "summary": "On the last day of the comment window, AHA filed a comment urging HRSA to abandon the rebate concept entirely, calling 'a rebate mechanism of any kind … flawed in both conception and design.' AHA estimated more than $1B in annual costs to 340B hospitals — including roughly $750M for new pharmacist FTEs and $400M in operational overhead — and flagged HRSA's revised data-collection burden estimate of five hours per entity per week.",
+    "key_actors": [
+      "AHA",
+      "HRSA"
+    ],
+    "priority": "high",
+    "priority_rationale": "Defines hospital-sector position of record and quantifies operating impact for any future rebate rule.",
+    "sources": [
+      {
+        "title": "AHA urges HRSA to abandon 340B rebate model that will cost billions",
+        "url": "https://www.aha.org/news/headline/2026-04-20-aha-urges-hrsa-abandon-340b-rebate-model-will-cost-billions-and-jeopardize-access-care-millions",
+        "publisher": "AHA News",
+        "date": "2026-04-20"
+      },
+      {
+        "title": "AHA's Response to HRSA Request for Information Re: A Potential 340B Rebate Model Pilot Program",
+        "url": "https://www.aha.org/lettercomment/2026-04-20-ahas-response-hrsa-request-information-re-potential-340b-rebate-model-pilot-program",
+        "publisher": "AHA",
+        "date": "2026-04-20"
+      }
+    ],
+    "tags": [
+      "AHA",
+      "RFI comment",
+      "rebate model",
+      "cost estimate"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-02-01-lilly-claims-mandate",
+    "date_added": "2026-05-15",
+    "event_date": "2026-02-01",
+    "category": "manufacturer",
+    "subcategory": "Eli Lilly — claims data",
+    "title": "Eli Lilly enforces 45-day claims-level data submission as condition of 340B pricing",
+    "summary": "Effective February 1, 2026, Lilly requires covered entities to submit claims-level data through 340B ESP within 45 days of dispense for all in-house pharmacy and medical-benefit dispenses. The policy applies to all dispenses, not just contract pharmacy claims, and failure to submit risks suspension of 340B pricing access.",
+    "key_actors": [
+      "Eli Lilly",
+      "340B ESP",
+      "Second Sight Solutions"
+    ],
+    "priority": "high",
+    "priority_rationale": "Broadest in-house data demand to date; reshapes covered-entity compliance workflows and data-sharing exposure.",
+    "sources": [
+      {
+        "title": "340B Manufacturer Data Demands: Claim-Level Compliance Risks",
+        "url": "https://www.frierlevitt.com/articles/340b-manufacturer-data-demands-claim-level-compliance-risks/",
+        "publisher": "Frier Levitt",
+        "date": "2026-02-05"
+      },
+      {
+        "title": "RWC-340B Objects to Eli Lilly's Claims Submission Mandate",
+        "url": "https://rwc340b.org/rwc-340b-objects-to-eli-lillys-claims-submission-mandate-as-unprecedented-violation-of-federal-law/",
+        "publisher": "RWC-340B",
+        "date": "2026-02-18"
+      }
+    ],
+    "tags": [
+      "claims data",
+      "Eli Lilly",
+      "ESP",
+      "compliance"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-02-18-rwc-letter-lilly",
+    "date_added": "2026-05-15",
+    "event_date": "2026-02-18",
+    "category": "stakeholder",
+    "subcategory": "RWC-340B",
+    "title": "RWC-340B sends Lilly CEO objection letter on claims-submission mandate",
+    "summary": "Ryan White Clinics for 340B Access wrote to Lilly CEO David Ricks on February 18, 2026, calling the in-house claims-submission policy 'unprecedented' and unsupported by Section 340B. The letter argues conditioning ceiling-price access on broad claims-data submission exceeds the statutory bargain and creates downstream privacy and operational risk for HIV/AIDS providers.",
+    "key_actors": [
+      "RWC-340B",
+      "Eli Lilly"
+    ],
+    "priority": "medium",
+    "priority_rationale": "Adds covered-entity legal argument to the record; relevant if litigation follows.",
+    "sources": [
+      {
+        "title": "RWC-340B Objects to Eli Lilly's Claims Submission Mandate as Unprecedented",
+        "url": "https://rwc340b.org/rwc-340b-objects-to-eli-lillys-claims-submission-mandate-as-unprecedented-violation-of-federal-law/",
+        "publisher": "RWC-340B",
+        "date": "2026-02-18"
+      }
+    ],
+    "tags": [
+      "RWC-340B",
+      "Eli Lilly",
+      "claims data"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-04-01-novo-claims-mandate",
+    "date_added": "2026-05-15",
+    "event_date": "2026-04-01",
+    "category": "manufacturer",
+    "subcategory": "Novo Nordisk — claims data",
+    "title": "Novo Nordisk 45-day claims-data rule takes effect for in-house and medical claims",
+    "summary": "Effective April 1, 2026, Novo Nordisk requires covered entities to submit claim-level detail within 45 days of dispense for in-house pharmacy and medical-benefit dispenses. Failure to provide data may result in suspension of 340B pricing access.",
+    "key_actors": [
+      "Novo Nordisk"
+    ],
+    "priority": "high",
+    "priority_rationale": "Second large manufacturer to extend claims-data demands beyond contract pharmacy; raises industry-wide compliance bar.",
+    "sources": [
+      {
+        "title": "Navigating Contract Pharmacy Restrictions in 2026",
+        "url": "https://340breport.com/navigating-contract-pharmacy-restrictions-in-2026-sponcon-compassrx/",
+        "publisher": "340B Report",
+        "date": "2026-03-15"
+      },
+      {
+        "title": "340B Manufacturer Updates",
+        "url": "https://www.amerisourcebergen.com/provider-solutions/hospitals-and-health-systems/340b-manufacturer-updates",
+        "publisher": "Cencora",
+        "date": "2026-04-01"
+      }
+    ],
+    "tags": [
+      "claims data",
+      "Novo Nordisk",
+      "compliance"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-02-09-5cir-louisiana",
+    "date_added": "2026-05-15",
+    "event_date": "2026-02-09",
+    "category": "litigation",
+    "subcategory": "5th Circuit — Louisiana",
+    "title": "5th Circuit affirms Louisiana 340B contract-pharmacy law against preemption challenge",
+    "summary": "The Fifth Circuit affirmed a district court ruling upholding Louisiana's 340B contract-pharmacy access law against manufacturer challenges. The panel held the law was not preempted by Section 340B and did not violate the Takings Clause, the Contract Clause, or vagueness doctrine.",
+    "key_actors": [
+      "5th Circuit",
+      "Louisiana",
+      "PhRMA"
+    ],
+    "priority": "high",
+    "priority_rationale": "Cements one side of the developing circuit split on state contract-pharmacy protections.",
+    "sources": [
+      {
+        "title": "Appeals court upholds Louisiana 340B contract pharmacy law",
+        "url": "https://www.aha.org/news/headline/2026-02-09-appeals-court-upholds-louisiana-340b-contract-pharmacy-law",
+        "publisher": "AHA News",
+        "date": "2026-02-09"
+      }
+    ],
+    "tags": [
+      "5th Circuit",
+      "Louisiana",
+      "preemption",
+      "contract pharmacy"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-02-17-mn-appeals-uphold",
+    "date_added": "2026-05-15",
+    "event_date": "2026-02-17",
+    "category": "litigation",
+    "subcategory": "Minnesota Court of Appeals",
+    "title": "Minnesota Court of Appeals upholds state 340B law against PhRMA challenge",
+    "summary": "The Minnesota Court of Appeals affirmed the lower court and held Minnesota's 340B contract-pharmacy protection law is not preempted by federal law. The decision sits alongside the 5th Circuit's Louisiana ruling on the state-protections side of the split.",
+    "key_actors": [
+      "Minnesota Court of Appeals",
+      "PhRMA",
+      "Minnesota AG"
+    ],
+    "priority": "medium",
+    "priority_rationale": "Reinforces state-protection precedent without breaking new federal ground.",
+    "sources": [
+      {
+        "title": "Appeals court upholds Minnesota's 340B law in PhRMA lawsuit",
+        "url": "https://www.aha.org/news/headline/2026-02-17-appeals-court-upholds-minnesotas-340b-law-phrma-lawsuit",
+        "publisher": "AHA News",
+        "date": "2026-02-17"
+      }
+    ],
+    "tags": [
+      "Minnesota",
+      "preemption",
+      "PhRMA"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-04-04cir-wv-blocked",
+    "date_added": "2026-05-15",
+    "event_date": "2026-04-15",
+    "category": "litigation",
+    "subcategory": "4th Circuit — West Virginia",
+    "title": "4th Circuit blocks West Virginia 340B contract-pharmacy law as likely preempted",
+    "summary": "The Fourth Circuit affirmed a preliminary injunction against West Virginia's S.B. 325, holding manufacturers are likely to succeed in showing the statute is preempted because it rewrites the federal 340B bargain and intrudes on HHS's exclusive enforcement role. The decision creates an explicit circuit split with the 5th, 7th, and 8th Circuits on state contract-pharmacy protections.",
+    "key_actors": [
+      "4th Circuit",
+      "West Virginia",
+      "PhRMA"
+    ],
+    "priority": "high",
+    "priority_rationale": "Creates a clear circuit split — strong candidate for Supreme Court review on state authority over 340B.",
+    "sources": [
+      {
+        "title": "Fourth Circuit Blocks West Virginia's 340B Contract Pharmacy Law as Likely Preempted",
+        "url": "https://www.consumerfinancialserviceslawmonitor.com/2026/04/fourth-circuit-blocks-west-virginias-340b-contract-pharmacy-law-as-likely-preempted/",
+        "publisher": "Consumer Financial Services Law Monitor",
+        "date": "2026-04-17"
+      }
+    ],
+    "tags": [
+      "4th Circuit",
+      "West Virginia",
+      "preemption",
+      "circuit split"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-03-30-wa-phrma-suits",
+    "date_added": "2026-05-15",
+    "event_date": "2026-03-30",
+    "category": "litigation",
+    "subcategory": "W.D. Wash. — Washington state",
+    "title": "PhRMA, Novartis, and AbbVie file separate suits against Washington's new 340B law",
+    "summary": "Three separate federal complaints were filed in the Western District of Washington challenging Washington's newly signed 340B contract-pharmacy access and anti-data-mandate law. Plaintiffs argue preemption and Takings; AbbVie's complaint quantifies 'tens of millions of dollars in unrecoverable discounts.' Suits were filed within days of the governor's signature.",
+    "key_actors": [
+      "PhRMA",
+      "Novartis",
+      "AbbVie",
+      "Washington State",
+      "W.D. Wash."
+    ],
+    "priority": "high",
+    "priority_rationale": "Tests the broadest state statute to date (covers data mandates) in a circuit (9th) not yet aligned.",
+    "sources": [
+      {
+        "title": "Pharmaceutical giants sue WA over new drug pricing law",
+        "url": "https://washingtonstatestandard.com/2026/03/30/pharmaceutical-giants-sue-wa-over-new-drug-pricing-law/",
+        "publisher": "Washington State Standard",
+        "date": "2026-03-30"
+      },
+      {
+        "title": "PhRMA Files Third Lawsuit Challenging Washington's New State 340B Law",
+        "url": "https://340breport.com/phrma-files-third-lawsuit-challenging-washingtons-new-state-340b-contract-pharmacy-access-law/",
+        "publisher": "340B Report",
+        "date": "2026-04-02"
+      }
+    ],
+    "tags": [
+      "Washington",
+      "PhRMA",
+      "Novartis",
+      "AbbVie",
+      "9th Circuit"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-03-25-wa-governor-signs",
+    "date_added": "2026-05-15",
+    "event_date": "2026-03-25",
+    "category": "state_legislation",
+    "subcategory": "Washington",
+    "title": "Washington governor signs sweeping 340B contract-pharmacy and anti-data-mandate law",
+    "summary": "Washington enacted a 340B statute that bars manufacturers from restricting contract-pharmacy access and prohibits conditioning drug delivery on claims-data submission. The law authorizes AG enforcement and a private right of action for hospitals and clinics. Industry lawsuits followed within days.",
+    "key_actors": [
+      "Washington Governor",
+      "Washington Legislature",
+      "Washington AG"
+    ],
+    "priority": "high",
+    "priority_rationale": "First state to legislatively prohibit manufacturer claims-data mandates — sets a template other states are likely to follow.",
+    "sources": [
+      {
+        "title": "Washington Governor Signs Sweeping 340B Law, Immediately Draws Two Drugmaker Lawsuits",
+        "url": "https://340breport.com/washington-governor-signs-sweeping-340b-law-immediately-draws-two-drugmaker-lawsuits/",
+        "publisher": "340B Report",
+        "date": "2026-03-26"
+      }
+    ],
+    "tags": [
+      "Washington",
+      "state law",
+      "anti-data-mandate"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-02-doj-amicus-ri-co",
+    "date_added": "2026-05-15",
+    "event_date": "2026-02-19",
+    "category": "litigation",
+    "subcategory": "DOJ amicus",
+    "title": "DOJ files amicus briefs backing manufacturers against Rhode Island and Colorado 340B laws",
+    "summary": "DOJ filed amicus briefs in the Rhode Island and Colorado 340B contract-pharmacy cases asserting the state statutes conflict with the federal 340B program and are preempted under the Supremacy Clause. The filings mark the federal government taking the manufacturer side on state-law preemption — a notable shift in posture.",
+    "key_actors": [
+      "DOJ",
+      "Rhode Island",
+      "Colorado",
+      "PhRMA"
+    ],
+    "priority": "high",
+    "priority_rationale": "Federal government switching sides on preemption significantly changes the litigation calculus in the remaining circuits.",
+    "sources": [
+      {
+        "title": "DOJ jumps into 340B cases over state law, raising questions about federal plans",
+        "url": "https://www.fiercehealthcare.com/regulatory/industry-voices-doj-jumps-340b-cases-over-state-law-raising-questions-about-federal",
+        "publisher": "Fierce Healthcare",
+        "date": "2026-02-20"
+      }
+    ],
+    "tags": [
+      "DOJ",
+      "amicus",
+      "preemption",
+      "Rhode Island",
+      "Colorado"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-03-nd-struck-down",
+    "date_added": "2026-05-15",
+    "event_date": "2026-03-10",
+    "category": "litigation",
+    "subcategory": "D.N.D. — North Dakota",
+    "title": "Federal judge strikes down North Dakota 340B contract-pharmacy access law",
+    "summary": "A federal district court in North Dakota struck down the state's 340B contract-pharmacy access law on preemption grounds, finding it conflicts with the federal program. The ruling cuts against the 5th and 8th Circuit decisions and aligns with the 4th Circuit's West Virginia reasoning.",
+    "key_actors": [
+      "D.N.D.",
+      "North Dakota",
+      "PhRMA"
+    ],
+    "priority": "medium",
+    "priority_rationale": "District-level decision; relevant signal but appellate posture matters more.",
+    "sources": [
+      {
+        "title": "Federal Judge Strikes Down North Dakota's 340B Contract Pharmacy Access Law",
+        "url": "https://340breport.com/federal-judge-strikes-down-north-dakotas-340b-contract-pharmacy-access-law/",
+        "publisher": "340B Report",
+        "date": "2026-03-12"
+      }
+    ],
+    "tags": [
+      "North Dakota",
+      "preemption"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-02-alkermes-kalderos",
+    "date_added": "2026-05-15",
+    "event_date": "2026-02-15",
+    "category": "operational",
+    "subcategory": "TPA / clearinghouse shift",
+    "title": "Alkermes becomes first manufacturer to move from 340B ESP to Kalderos Truzo",
+    "summary": "Alkermes shifted its 340B contract-pharmacy claims clearinghouse from Second Sight Solutions' 340B ESP to Kalderos' Truzo platform. Covered entities had to register and begin submitting claims data on the new platform by December 1, 2025, on a timeline providers criticized as compressed. Puma followed Alkermes shortly after; Gilead announced a Truzo transition in early 2026.",
+    "key_actors": [
+      "Alkermes",
+      "Kalderos",
+      "Second Sight Solutions",
+      "Puma",
+      "Gilead"
+    ],
+    "priority": "medium",
+    "priority_rationale": "Operational fragmentation across two clearinghouses raises compliance complexity and vendor-management burden.",
+    "sources": [
+      {
+        "title": "Alkermes 1st to Shift from 340B ESP to Kalderos' Truzo Contract Pharmacy Platform",
+        "url": "https://340breport.com/alkermes-1st-to-shift-from-340b-esp-to-kalderos-truzo-contract-pharmacy-platform-providers-pan-transition-deadline/",
+        "publisher": "340B Report",
+        "date": "2025-11-20"
+      },
+      {
+        "title": "In an Uncertain 340B Environment, Kalderos Offers a Clear Path Forward",
+        "url": "https://www.drugchannels.net/2026/02/in-uncertain-340b-environment-kalderos.html",
+        "publisher": "Drug Channels",
+        "date": "2026-02-04"
+      }
+    ],
+    "tags": [
+      "Kalderos",
+      "Truzo",
+      "340B ESP",
+      "clearinghouse"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-04-entresto-rebate",
+    "date_added": "2026-05-15",
+    "event_date": "2026-04-01",
+    "category": "manufacturer",
+    "subcategory": "Novartis — Entresto",
+    "title": "Novartis adds Entresto to its 340B rebate posture on a delayed timeline",
+    "summary": "Novartis added Entresto to the rebate posture with an April 1, 2026 start, three months later than the other initially-targeted drugs. With the broader HRSA pilot vacated, the practical effect is contingent on what HRSA does post-RFI; covered entities continue to receive the upfront discount.",
+    "key_actors": [
+      "Novartis"
+    ],
+    "priority": "low",
+    "priority_rationale": "Practical impact limited while the pilot remains vacated, but flags continuing manufacturer intent.",
+    "sources": [
+      {
+        "title": "340B rebate model is set to proceed in 2026 with 9 drugs",
+        "url": "https://www.hfma.org/accounting-and-financial-reporting/cost-of-care/340b-rebate-model-is-set-to-proceed-in-2026-with-9-drugs/",
+        "publisher": "HFMA",
+        "date": "2025-12-15"
+      }
+    ],
+    "tags": [
+      "Novartis",
+      "Entresto",
+      "rebate model"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-05-asco-policy",
+    "date_added": "2026-05-15",
+    "event_date": "2026-05-05",
+    "category": "stakeholder",
+    "subcategory": "ASCO",
+    "title": "ASCO releases first major 340B policy update in over a decade",
+    "summary": "ASCO published an updated 340B policy statement proposing an Indigent Care Ratio (ICR) for practice eligibility, caps on contract-pharmacy administrative fees, mandatory public reporting of how 340B savings are reinvested in patient care, and a tightened patient-definition standard requiring an ongoing clinical relationship with the covered entity.",
+    "key_actors": [
+      "ASCO"
+    ],
+    "priority": "medium",
+    "priority_rationale": "Influential oncology-society position; may shape provider-side reform proposals in any future legislation.",
+    "sources": [
+      {
+        "title": "ASCO Updates 340B Policy Statement to Expand Access, Improve Transparency",
+        "url": "https://www.cancernetwork.com/view/asco-updates-340b-policy-statement-to-expand-access-improve-transparency",
+        "publisher": "CancerNetwork",
+        "date": "2026-05-06"
+      },
+      {
+        "title": "ASCO Updates Policy Statement on 340B Drug Pricing Program",
+        "url": "https://www.asco.org/about-asco/press-center/news-releases/asco-updates-policy-statement-340B-drug-pricing-program",
+        "publisher": "ASCO",
+        "date": "2026-05-05"
+      }
+    ],
+    "tags": [
+      "ASCO",
+      "policy",
+      "oncology",
+      "ICR"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-q1-sustain-stalled",
+    "date_added": "2026-05-15",
+    "event_date": "2026-04-25",
+    "category": "federal_legislation",
+    "subcategory": "Senate — SUSTAIN Act",
+    "title": "SUSTAIN Act introduction stalled; rebate provisions reportedly out",
+    "summary": "The bipartisan Senate working group (Thune, Baldwin, Moran, Capito, Cardin, Stabenow) signaled that the SUSTAIN Act discussion draft is unlikely to include 340B rebate provisions, but internal disagreements — including disputes tied to unrelated cultural-issue riders — continue to delay formal introduction. Senate HELP Chair Cassidy has separately signaled standalone 340B legislative plans.",
+    "key_actors": [
+      "Sen. Thune",
+      "Sen. Baldwin",
+      "Sen. Moran",
+      "Sen. Capito",
+      "Sen. Cardin",
+      "Sen. Stabenow",
+      "Sen. Cassidy"
+    ],
+    "priority": "medium",
+    "priority_rationale": "Major comprehensive 340B legislation remains unlikely in 2026 — useful context for what is and isn't moving.",
+    "sources": [
+      {
+        "title": "SUSTAIN Act's Introduction Stalled Amid Talks on 340B Rebates, Hot-Button Issues",
+        "url": "https://340breport.com/sustain-acts-introduction-stalled-amid-talks-on-340b-rebates-hot-button-issues/",
+        "publisher": "340B Report",
+        "date": "2026-04-28"
+      },
+      {
+        "title": "Senate HELP Chair Cassidy Signals 340B Legislation Plans",
+        "url": "https://340breport.com/senate-help-chair-cassidy-signals-340b-legislation-plans-g6-senator-promises-sustain-act-update-soon-at-nachc-conference/",
+        "publisher": "340B Report",
+        "date": "2026-04-22"
+      }
+    ],
+    "tags": [
+      "SUSTAIN Act",
+      "Senate",
+      "Cassidy"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-q1-house-fqhc-bill",
+    "date_added": "2026-05-15",
+    "event_date": "2026-03-15",
+    "category": "federal_legislation",
+    "subcategory": "House — FQHC protection",
+    "title": "House lawmakers introduce bipartisan bill to shield FQHCs from 340B rebate models",
+    "summary": "A bipartisan House group introduced legislation to bar manufacturers from imposing rebate models on federally qualified health centers and other grantee covered entities. The bill is narrower than the broader PROTECT 340B / SUSTAIN frameworks and is positioned as a backstop if HRSA revives rebate rulemaking.",
+    "key_actors": [
+      "U.S. House",
+      "NACHC",
+      "FQHCs"
+    ],
+    "priority": "medium",
+    "priority_rationale": "Targeted bill with cleaner coalition than comprehensive 340B reform; modest chance of standalone passage as a rider.",
+    "sources": [
+      {
+        "title": "House Lawmakers Introduce Bipartisan Bill to Protect Health Centers from 340B Rebate Models",
+        "url": "https://340breport.com/house-lawmakers-introduce-bipartisan-bill-to-protect-health-centers-from-340b-rebate-models/",
+        "publisher": "340B Report",
+        "date": "2026-03-17"
+      }
+    ],
+    "tags": [
+      "House",
+      "FQHC",
+      "rebate model",
+      "NACHC"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-spanberger-johnson",
+    "date_added": "2026-05-15",
+    "event_date": "2026-02-25",
+    "category": "federal_legislation",
+    "subcategory": "House — PBM accountability",
+    "title": "Spanberger-Johnson bipartisan bill targets PBM diversion of 340B savings",
+    "summary": "Reps. Spanberger (D-VA) and Johnson reintroduced a bipartisan 340B protection bill aimed at PBMs and insurers that the sponsors say undermine 340B discounts through differential reimbursement. The bill is in the same family as the PROTECT 340B Act and 340B PATIENTS Act in the Senate.",
+    "key_actors": [
+      "Rep. Spanberger",
+      "Rep. Johnson",
+      "PBMs"
+    ],
+    "priority": "low",
+    "priority_rationale": "Adds to the House anti-PBM 340B legislative stack; not yet on a clear path to markup.",
+    "sources": [
+      {
+        "title": "Spanberger, Johnson Introduce Bipartisan Bill to Protect 340B Program",
+        "url": "https://spanberger.house.gov/posts/spanberger-johnson-introduce-bipartisan-bill-to-protect-340b-program-prevent-higher-drug-prices",
+        "publisher": "Office of Rep. Spanberger",
+        "date": "2026-02-25"
+      },
+      {
+        "title": "Welch Introduces 340B PATIENTS Act",
+        "url": "https://www.welch.senate.gov/welch-introduces-340b-patients-act-to-lower-prescription-drug-costs-health-care-providers-serving-americas-most-vulnerable-rural-and-low-income-patients/",
+        "publisher": "Office of Sen. Welch",
+        "date": "2026-02-12"
+      }
+    ],
+    "tags": [
+      "PROTECT 340B",
+      "PBM",
+      "House"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-gao-26-108784",
+    "date_added": "2026-05-15",
+    "event_date": "2026-03-20",
+    "category": "oversight",
+    "subcategory": "GAO",
+    "title": "GAO finds HRSA 340B oversight improved but flags persistent gaps",
+    "summary": "GAO report GAO-26-108784 concluded that HRSA's 340B oversight has improved since prior reviews but identified continuing weaknesses, including in audit follow-up, duplicate-discount detection, and contract-pharmacy compliance review. GAO issued recommendations directed at HRSA's audit cadence and corrective-action tracking.",
+    "key_actors": [
+      "GAO",
+      "HRSA"
+    ],
+    "priority": "medium",
+    "priority_rationale": "Federal oversight findings often drive subsequent HRSA program-integrity changes covered entities must adapt to.",
+    "sources": [
+      {
+        "title": "GAO-26-108784 — 340B Drug Discount Program: Agency Oversight Has Improved, but Actions Needed",
+        "url": "https://www.gao.gov/products/gao-26-108784",
+        "publisher": "U.S. GAO",
+        "date": "2026-03-20"
+      }
+    ],
+    "tags": [
+      "GAO",
+      "oversight",
+      "audit",
+      "duplicate discount"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-aha-letter-hrsa-mar03",
+    "date_added": "2026-05-15",
+    "event_date": "2026-03-03",
+    "category": "stakeholder",
+    "subcategory": "AHA — letter to HRSA",
+    "title": "AHA flags 'concerning development' to HRSA in March 3 letter",
+    "summary": "AHA wrote HRSA on March 3, 2026, raising a 'new concerning development' with the 340B program, urging the agency to maintain the upfront-discount status quo while it considers any rebate redesign and to push back on manufacturer claims-data demands lacking statutory grounding.",
+    "key_actors": [
+      "AHA",
+      "HRSA"
+    ],
+    "priority": "low",
+    "priority_rationale": "Positioning letter; useful as context for HRSA's RFI deliberations.",
+    "sources": [
+      {
+        "title": "AHA Letter to HRSA Regarding a New Concerning Development with the 340B Program",
+        "url": "https://www.aha.org/lettercomment/2026-03-03-aha-letter-hrsa-regarding-new-concerning-development-340b-program",
+        "publisher": "AHA",
+        "date": "2026-03-03"
+      }
+    ],
+    "tags": [
+      "AHA",
+      "letter",
+      "HRSA"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-aha-feb-rfi-comment",
+    "date_added": "2026-05-15",
+    "event_date": "2026-02-19",
+    "category": "stakeholder",
+    "subcategory": "AHA — initial RFI comments",
+    "title": "AHA files initial comments on HRSA's RFI on 340B rebate model extension",
+    "summary": "AHA filed initial comments on HRSA's February RFI (Docket No. HRSA-2026-03042), reiterating its objections to a rebate mechanism and providing operational data points HRSA had requested. The April 20 letter built on this filing.",
+    "key_actors": [
+      "AHA",
+      "HRSA"
+    ],
+    "priority": "low",
+    "priority_rationale": "Procedural — part of the record HRSA must consider in any future rulemaking.",
+    "sources": [
+      {
+        "title": "AHA Comments on HRSA's RFI Re: 340B Rebate Model Pilot Program – HHS Docket No. HRSA-2026-03042",
+        "url": "https://www.aha.org/lettercomment/2026-02-19-aha-comments-hrsas-rfi-re-340b-rebate-model-pilot-program-hhs-docket-no-hrsa-2026-03042",
+        "publisher": "AHA",
+        "date": "2026-02-19"
+      }
+    ],
+    "tags": [
+      "AHA",
+      "RFI",
+      "comment"
+    ],
+    "updates": []
+  },
+  {
+    "id": "2026-alkermes-viatris-restrictions",
+    "date_added": "2026-05-15",
+    "event_date": "2026-04-10",
+    "category": "manufacturer",
+    "subcategory": "Alkermes / Viatris",
+    "title": "Alkermes and Viatris impose new 340B contract-pharmacy restrictions",
+    "summary": "Alkermes and Viatris announced new 340B contract-pharmacy restrictions in early 2026, joining the now-40 manufacturers with active contract-pharmacy distribution limits. Alkermes's policy is paired with its move to the Kalderos Truzo clearinghouse; Viatris's policy follows a similar single-contract-pharmacy plus data-submission pattern.",
+    "key_actors": [
+      "Alkermes",
+      "Viatris"
+    ],
+    "priority": "medium",
+    "priority_rationale": "Continues the steady manufacturer-by-manufacturer expansion of contract-pharmacy restrictions; meaningful for entities with concentrated pharmacy networks.",
+    "sources": [
+      {
+        "title": "Alkermes and Viatris Impose 340B Program Contract Pharmacy Restrictions",
+        "url": "https://rwc340b.org/alkermes-and-viatris-impose-340b-program-contract-pharmacy-restrictions/",
+        "publisher": "RWC-340B",
+        "date": "2026-04-12"
+      },
+      {
+        "title": "340B Manufacturer Restriction on Contract Pharmacies Chart",
+        "url": "https://www.nachc.org/resource/340b-manufacturer-restriction-on-contract-pharmacies-chart/",
+        "publisher": "NACHC",
+        "date": "2026-04-15"
+      }
+    ],
+    "tags": [
+      "Alkermes",
+      "Viatris",
+      "contract pharmacy"
+    ],
+    "updates": []
+  }
+];
+
+const CATEGORIES = [
+  ["hrsa", "HRSA"],
+  ["manufacturer", "Manufacturer"],
+  ["litigation", "Litigation"],
+  ["federal_legislation", "Federal Legislation"],
+  ["state_legislation", "State Legislation"],
+  ["oversight", "Oversight"],
+  ["stakeholder", "Stakeholder"],
+  ["operational", "Operational"],
+];
+const PRIORITIES = [["high","High"],["medium","Medium"],["low","Low"]];
+
+const state = {
+  cats: new Set(),
+  pris: new Set(),
+  q: "",
+  from: "",
+  to: "",
+};
+
+// Build header counts
+function renderHeaderCounts() {
+  document.getElementById("total-count").textContent = CORPUS.length;
+  const counts = {};
+  for (const e of CORPUS) counts[e.category] = (counts[e.category] || 0) + 1;
+  const wrap = document.getElementById("cat-counts");
+  wrap.innerHTML = "";
+  for (const [k, label] of CATEGORIES) {
+    if (!counts[k]) continue;
+    const s = document.createElement("span");
+    s.textContent = label + " ";
+    const b = document.createElement("b");
+    b.textContent = counts[k];
+    s.appendChild(b);
+    wrap.appendChild(s);
+  }
+}
+
+function buildFilterChips(containerId, items, stateSet) {
+  const c = document.getElementById(containerId);
+  c.innerHTML = "";
+  for (const [k, label] of items) {
+    const el = document.createElement("button");
+    el.type = "button";
+    el.className = "chip";
+    el.textContent = label;
+    el.addEventListener("click", () => {
+      if (stateSet.has(k)) stateSet.delete(k); else stateSet.add(k);
+      el.classList.toggle("active");
+      render();
+    });
+    c.appendChild(el);
+  }
+}
+
+function entryMatches(e) {
+  if (state.cats.size && !state.cats.has(e.category)) return false;
+  if (state.pris.size && !state.pris.has(e.priority)) return false;
+  if (state.from && (e.event_date || "") < state.from) return false;
+  if (state.to && (e.event_date || "") > state.to) return false;
+  if (state.q) {
+    const hay = [
+      e.title || "",
+      e.summary || "",
+      (e.tags || []).join(" "),
+      (e.key_actors || []).join(" "),
+      e.subcategory || "",
+    ].join(" ").toLowerCase();
+    if (!hay.includes(state.q.toLowerCase())) return false;
+  }
+  return true;
+}
+
+function fmtDate(s) {
+  if (!s) return "";
+  // YYYY-MM-DD → "Mon DD, YYYY"
+  const parts = s.split("-");
+  if (parts.length !== 3) return s;
+  const y = parts[0], m = parseInt(parts[1],10), d = parseInt(parts[2],10);
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  return months[m-1] + " " + d + ", " + y;
+}
+
+function catLabel(k) {
+  for (const [c,l] of CATEGORIES) if (c === k) return l;
+  return k;
+}
+
+function escapeHtml(s) {
+  return (s||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+
+function cardHTML(e) {
+  const sources = (e.sources || []).map(s =>
+    `<li><a href="${encodeURI(s.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(s.title)}</a>` +
+    (s.publisher ? `<span class="pub">— ${escapeHtml(s.publisher)}${s.date ? ", " + escapeHtml(s.date) : ""}</span>` : "") +
+    `</li>`
+  ).join("");
+  const actors = (e.key_actors || []).map(a => `<span class="actor">${escapeHtml(a)}</span>`).join("");
+  const updates = (e.updates || []).length
+    ? `<div class="updates"><b>Updates</b><ul>${e.updates.map(u => `<li><span class="date">${escapeHtml(u.date||"")}</span>${escapeHtml(u.note||"")}</li>`).join("")}</ul></div>`
+    : "";
+  return `
+    <article class="card" id="${escapeHtml(e.id)}">
+      <div class="card-meta">
+        <span class="cat">${escapeHtml(catLabel(e.category))}</span>
+        <span class="pri pri-${escapeHtml(e.priority||"low")}">${escapeHtml((e.priority||"low").toUpperCase())}</span>
+        <span class="subcat">${escapeHtml(e.subcategory||"")}</span>
+        <span class="event-date">${escapeHtml(fmtDate(e.event_date))}</span>
+      </div>
+      <h3>${escapeHtml(e.title||"")}</h3>
+      <p class="summary">${escapeHtml(e.summary||"")}</p>
+      ${e.priority_rationale ? `<p class="pri-rationale">${escapeHtml(e.priority_rationale)}</p>` : ""}
+      <div class="actors">${actors}</div>
+      <div class="sources"><b>Sources</b><ul>${sources}</ul></div>
+      ${updates}
+    </article>
+  `;
+}
+
+function groupByEventDate(entries) {
+  const groups = {};
+  for (const e of entries) {
+    const k = e.event_date || "unknown";
+    (groups[k] = groups[k] || []).push(e);
+  }
+  return Object.keys(groups).sort((a,b)=>b.localeCompare(a)).map(k => [k, groups[k]]);
+}
+
+function render() {
+  const feed = document.getElementById("feed");
+  feed.innerHTML = "";
+
+  const lastUpdated = document.getElementById("last-updated").textContent;
+  const todayAdds = CORPUS.filter(e => e.date_added === lastUpdated);
+
+  // Today's adds — pinned, ignores filters except search (so you can find within)
+  if (todayAdds.length) {
+    const banner = document.getElementById("today-banner");
+    banner.style.display = "";
+    document.getElementById("today-banner-count").textContent = todayAdds.length;
+    document.getElementById("today-banner-date").textContent = fmtDate(lastUpdated);
+    document.getElementById("today-count").textContent = todayAdds.length;
+
+    const todayGroup = document.createElement("div");
+    todayGroup.className = "day-group";
+    todayGroup.innerHTML = `<div class="day-heading">Today's adds — ${fmtDate(lastUpdated)}</div>`;
+    const visibleToday = todayAdds.filter(entryMatches).sort((a,b)=>(b.event_date||"").localeCompare(a.event_date||""));
+    if (!visibleToday.length) {
+      todayGroup.innerHTML += `<div class="empty">No today's-adds match the current filters.</div>`;
+    } else {
+      visibleToday.forEach(e => { todayGroup.insertAdjacentHTML("beforeend", cardHTML(e)); });
+    }
+    feed.appendChild(todayGroup);
+  }
+
+  // Rest of the corpus, grouped by event_date desc, excluding today's adds
+  const rest = CORPUS.filter(e => e.date_added !== lastUpdated).filter(entryMatches);
+  if (!rest.length && !todayAdds.length) {
+    feed.insertAdjacentHTML("beforeend", `<div class="empty">No entries match the current filters.</div>`);
+    return;
+  }
+  const groups = groupByEventDate(rest);
+  for (const [date, items] of groups) {
+    const g = document.createElement("div");
+    g.className = "day-group";
+    g.innerHTML = `<div class="day-heading">${fmtDate(date)}</div>`;
+    items.sort((a,b)=>(b.id||"").localeCompare(a.id||""));
+    items.forEach(e => { g.insertAdjacentHTML("beforeend", cardHTML(e)); });
+    feed.appendChild(g);
+  }
+}
+
+// Wire up
+renderHeaderCounts();
+buildFilterChips("cat-filter", CATEGORIES, state.cats);
+buildFilterChips("pri-filter", PRIORITIES, state.pris);
+document.getElementById("q").addEventListener("input", e => { state.q = e.target.value; render(); });
+document.getElementById("from").addEventListener("change", e => { state.from = e.target.value; render(); });
+document.getElementById("to").addEventListener("change", e => { state.to = e.target.value; render(); });
+document.getElementById("clear-btn").addEventListener("click", () => {
+  state.cats.clear(); state.pris.clear(); state.q = ""; state.from = ""; state.to = "";
+  document.querySelectorAll(".chip.active").forEach(c => c.classList.remove("active"));
+  document.getElementById("q").value = "";
+  document.getElementById("from").value = "";
+  document.getElementById("to").value = "";
+  render();
+});
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+[
+  {
+    "id": "what-is-340b",
+    "kind": "concept",
+    "title": "What is 340B?",
+    "summary": "A federal drug discount program that requires manufacturers participating in Medicaid to sell certain outpatient drugs at a statutory ceiling price to eligible safety-net providers.",
+    "last_updated": "2026-05-15",
+    "status": "complete",
+    "body_markdown": "## The bargain\n\nThe 340B Drug Pricing Program was created by Section 602 of the Veterans Health Care Act of 1992 (Public Health Service Act §340B). The program does one thing: it forces drug manufacturers that want their drugs covered by Medicaid to also sell certain outpatient drugs at a statutory ceiling price to a defined list of safety-net providers (\"covered entities\"). Manufacturer participation is conditional — opt out of 340B and you lose Medicaid coverage. There is no federal appropriation; the discount is mandatory and the burden sits on manufacturers.\n\nThe ceiling price is set by formula: Average Manufacturer Price (AMP) minus the Medicaid Unit Rebate Amount, calculated quarterly. For most brand drugs, the resulting discount runs roughly 25–50% off wholesale acquisition cost.\n\n## Who's covered\n\nThe statute names specific provider types. Hospitals must hold one of several Medicare designations (Disproportionate Share Hospital, Critical Access Hospital, Rural Referral Center, Sole Community Hospital, Free-Standing Children's Hospital, Free-Standing Cancer Hospital) and meet additional eligibility criteria — most notably, hospitals (other than CAH, FSCH, FSCH-cancer) must demonstrate a Medicare DSH adjustment percentage above a threshold and be a public hospital, a non-profit with contractual responsibility for low-income care, or a private non-profit formally meeting that mission. Grantee categories include Federally Qualified Health Centers and look-alikes, Ryan White HIV/AIDS clinics, Title X family-planning clinics, STD and TB clinics, hemophilia treatment centers, urban Indian organizations, and several others. See `covered-entities` for the full list.\n\n## What the savings are for\n\nCongress's intent, in the legislative record, was to \"stretch scarce federal resources as far as possible, reaching more eligible patients and providing more comprehensive services.\" The statute itself does not dictate how covered entities spend the savings — there's no required reinvestment formula, and that openness is a major flashpoint in the current reform debate. Hospitals point to charity care, expanded clinical services, and free or low-cost outpatient drugs. Critics — PhRMA, the WSJ editorial board, and several conservative think tanks — argue the savings are increasingly captured by hospital systems and PBMs rather than reaching patients.\n\n## Why it's contentious right now\n\nThe program has grown roughly tenfold over the past decade — from $7B in purchases in 2013 to over $66B in 2023. Three forces are colliding:\n\n- Manufacturers argue the statute envisioned a much narrower program and have unilaterally restricted contract-pharmacy distribution and demanded claims-level data as conditions of 340B pricing. See `manufacturer-restrictions` and `contract-pharmacies`.\n- HHS attempted (and was blocked from) implementing a rebate model that would replace upfront discounts with after-the-fact rebates. See `rebate-models`.\n- States have passed contract-pharmacy protection laws preempted-or-not is now an open circuit-split question. See `state-protection-laws`.\n\n## How the program actually moves money\n\nA covered entity buys 340B-eligible drugs through a wholesaler. The wholesaler bills the entity at the ceiling price (or, for products on restricted distribution, at WAC pending later reconciliation). When the drug is dispensed to a 340B-eligible patient through an in-house pharmacy or a contract pharmacy, the entity captures the spread between the 340B acquisition cost and the third-party reimbursement (commercial insurance, Medicare, the patient cash price, etc.). For Medicaid prescriptions, the entity must avoid duplicate discounts — either bill Medicaid the 340B price and the manufacturer doesn't owe a Medicaid rebate, or carve Medicaid out of 340B entirely. See `duplicate-discounts`.\n\nThe complexity sits in (a) determining which dispenses are 340B-eligible, (b) tracking that inventory replenishment matches eligible dispenses, and (c) producing data for manufacturers, HRSA audits, and ADR.\n\n## Operational surface area for a GTM conversation\n\nA covered entity's 340B program is administered by a mix of an in-house pharmacy team, a third-party administrator (TPA) — often Apexus, Sentry, Macro Helix, or PharmaForce — and one or more clearinghouses (340B ESP, Kalderos Truzo) on the manufacturer side. The TPA does most of the day-to-day claims matching and replenishment logic. Where covered entities still struggle is the data reconciliation between TPA, finance, claims, and manufacturer demands — that's where workflow automation has room to help.",
+    "tags": ["overview", "statute", "ceiling price", "history"],
+    "related_concept_ids": ["covered-entities", "contract-pharmacies", "manufacturer-restrictions", "duplicate-discounts", "rebate-models"],
+    "gtm_notes": "Use this as the floor — if a prospect is genuinely new to 340B, they need this orientation before any product conversation lands. Don't relitigate the policy debate; covered-entity prospects already have a position. The line that works on discovery calls: \"340B is a bargain Congress wrote with manufacturers — discounts in exchange for Medicaid access. The current fight is about who polices the bargain and how much data has to flow to prove eligibility.\" Plenful doesn't directly address 340B program eligibility, recertification, or the legal questions — those are HRSA, OPAIS, and outside counsel. Where Plenful does land: the reconciliation and exception-handling layer between the TPA, the financial system, and the manufacturer-mandated data submissions (ESP, Truzo). That's where the operational pain compounds and where file-ingest tables, PQL formulas flagging mismatches, and scheduled automations matter.",
+    "key_questions": [
+      "How is the 340B ceiling price actually calculated?",
+      "Why doesn't HRSA just publish ceiling prices publicly?",
+      "What's the difference between a hospital covered entity and a grantee covered entity, and why does it matter for current restrictions?",
+      "Is the program net-good or net-bad — what's the honest answer right now?"
+    ]
+  },
+  {
+    "id": "contract-pharmacies",
+    "kind": "concept",
+    "title": "Contract pharmacies",
+    "summary": "Retail pharmacies that dispense 340B drugs on behalf of a covered entity under contract — the leverage point manufacturers have used since 2020 to restrict 340B access.",
+    "last_updated": "2026-05-15",
+    "status": "complete",
+    "body_markdown": "## What a contract pharmacy is\n\nA contract pharmacy is a retail (or specialty) pharmacy that dispenses 340B-priced drugs to a covered entity's eligible patients under a written contract. The pharmacy doesn't have to be owned by the covered entity. It can be a CVS, Walgreens, Walmart, an independent, or a specialty pharmacy. The covered entity owns the drug (it purchased the inventory at 340B price); the contract pharmacy is essentially a dispensing agent. The covered entity captures the spread between 340B acquisition cost and third-party reimbursement, less a dispensing fee paid to the pharmacy.\n\nIn practice, dispensing through contract pharmacies almost always uses a replenishment model. The pharmacy fills patient prescriptions from its general (non-340B) inventory. A TPA reviews the claims, flags ones that were dispensed to an eligible 340B patient of the covered entity, and triggers the pharmacy to reorder that NDC at the 340B price. The economics get attributed back to the covered entity after the fact.\n\n## How we got here\n\n- 1996: HRSA issues guidance permitting a covered entity to use a single contract pharmacy if it lacked an in-house pharmacy.\n- 2010: HRSA expands its guidance — entities may use multiple contract pharmacies regardless of whether they have an in-house pharmacy. This is the explosion point. Contract-pharmacy arrangements grow from a few hundred to over 30,000.\n- July 2020: Eli Lilly is the first manufacturer to announce restrictions, requiring covered entities to designate a single contract pharmacy if they have no in-house dispensing capability. Within months, AstraZeneca, Sanofi, Novartis, Merck, Novo Nordisk, Boehringer Ingelheim, AbbVie, Bristol Myers Squibb, Bayer, and others follow with their own variants.\n- 2021–2024: HRSA issues violation letters; manufacturers sue; multiple Circuit Courts (3rd, D.C., 7th, 8th) hold the statute does not require manufacturers to deliver to unlimited contract pharmacies.\n- 2025: States begin enacting contract-pharmacy protection laws — Louisiana, Arkansas, Mississippi, Minnesota, West Virginia, Kansas, Maryland, Missouri, Tennessee, Colorado, Washington and more. Manufacturers sue each one. The 5th, 7th, and 8th Circuits side with the states; the 4th Circuit sides with manufacturers (West Virginia; Maryland reversal).\n- 2026: 40+ manufacturers have active contract-pharmacy restrictions of varying scope. Many are tied to data-submission mandates routed through 340B ESP (Second Sight Solutions) or Kalderos Truzo. See `tpas-and-clearinghouses`.\n\n## What \"a restriction\" actually looks like\n\nThere is no single restriction model. Common variants:\n\n- Single contract pharmacy designation (only one CP allowed, often only if the entity lacks an in-house pharmacy).\n- Wholly-owned pharmacy exception (chain pharmacies wholly owned by the entity are not counted as contract pharmacies).\n- State exemptions (some manufacturers exempt entities in states with contract-pharmacy protection laws — see `state-protection-laws`).\n- Grantee carve-outs (some manufacturers exempt FQHCs and grantees from restrictions and apply restrictions only to hospital covered entities).\n- Claims-data conditional access (340B price conditional on submission of de-identified or claims-level data via ESP or Truzo within 45–60 days of dispense).\n\nKeeping a current matrix of which manufacturer restricts which entity types under which conditions in which states is operational work covered entities do constantly. The NACHC manufacturer-restriction chart and RWC-340B's tracker are the public references.\n\n## The current state of the law\n\nThree separate fights are running in parallel:\n\n1. Federal preemption of state contract-pharmacy access laws. Circuit split: 5th, 7th, 8th Circuits favor the states; 4th Circuit favors manufacturers (West Virginia and Maryland). DOJ has filed amicus briefs siding with manufacturers in Rhode Island and Colorado — a notable federal-government posture shift. The Supreme Court is the obvious next stop if the split holds. See `state-protection-laws`.\n2. Statutory authority of HRSA to enforce restrictions. The 3rd, D.C., and 7th Circuits have held the 340B statute does not mandate delivery through unlimited contract pharmacies, undercutting HRSA's enforcement basis under existing law.\n3. ADR — the path covered entities use to challenge restrictions administratively. Through Q1 2026, five consecutive ADR panel decisions have sided with manufacturers. See `administrative-dispute-resolution`.\n\n## What \"normal\" looks like in 2026\n\n- A typical large health system has 50–200+ contract-pharmacy arrangements across multiple TPAs.\n- Roughly 40 manufacturers actively restrict, each with its own restriction logic, exempt-state list, and clearinghouse.\n- Day-to-day work splits between (a) keeping designations current, (b) reconciling what was actually dispensed against what got replenished, (c) responding to data demands, and (d) tracking lost-revenue exposure by manufacturer and product.",
+    "tags": ["contract pharmacy", "replenishment", "TPA", "manufacturer restrictions"],
+    "related_concept_ids": ["manufacturer-restrictions", "state-protection-laws", "tpas-and-clearinghouses", "administrative-dispute-resolution", "duplicate-discounts"],
+    "gtm_notes": "Contract pharmacy is the single best opening topic on a discovery call. Every covered-entity prospect operates one or more contract-pharmacy arrangements, and every one of them is dealing with the manufacturer-restriction operational tax. The diagnostic question that works: \"How are you keeping the manufacturer restriction matrix current — which manufacturer restricts which of your sites under which conditions — and how are you reconciling the lost-revenue exposure when a restriction lands?\" Most operators answer with some combination of spreadsheets, vendor-supplied PDFs, and TPA dashboards. That's the wedge. Where Plenful fits specifically: (1) Ingesting manufacturer notice PDFs and ESP/Truzo CSVs into structured tables so the restriction matrix is queryable rather than tribal knowledge. (2) Scheduled automations that re-pull data each week and flag changes. (3) PQL formulas comparing what each manufacturer expects against what was actually submitted. (4) Multi-entity tenancy for hospital systems with multiple 340B IDs. Where Plenful does NOT help: the actual TPA claims matching itself — that's Apexus, Sentry, Macro Helix, PharmaForce territory and the prospect won't switch. Don't pitch against the TPA; pitch the reconciliation layer that sits next to it.",
+    "key_questions": [
+      "Which manufacturers currently restrict contract pharmacies for hospital DSH entities versus FQHCs?",
+      "What happens to my contract-pharmacy strategy if SCOTUS takes the West Virginia case?",
+      "Can a manufacturer actually suspend my 340B pricing for failure to submit claims data?",
+      "How do I track lost revenue from manufacturer restrictions per quarter?"
+    ]
+  },
+  {
+    "id": "manufacturer-restrictions",
+    "kind": "concept",
+    "title": "Manufacturer 340B restrictions",
+    "summary": "The post-2020 wave of unilateral manufacturer policies limiting how covered entities can access 340B pricing — primarily through contract-pharmacy restrictions and claims-data conditions.",
+    "last_updated": "2026-05-15",
+    "status": "complete",
+    "body_markdown": "## The taxonomy\n\nAs of mid-2026, manufacturer restrictions fall into four overlapping categories:\n\n1. **Contract-pharmacy restrictions.** ~40 manufacturers limit which contract pharmacies can receive 340B-priced drugs. Variants include single-contract-pharmacy designation, wholly-owned exceptions, and state-by-state exemptions. See `contract-pharmacies`.\n2. **Claims-data conditions.** Manufacturers condition 340B pricing on submission of detailed claims data via 340B ESP (Second Sight Solutions) or Kalderos Truzo, typically within 45 days of dispense. Lilly extended this to in-house pharmacy and medical-benefit dispenses in February 2026. Novo Nordisk followed April 1, 2026. AbbVie, Boehringer, and several others impose narrower data requirements. See `tpas-and-clearinghouses`.\n3. **Rebate posture (currently inert).** Nine manufacturers were initially approved by HRSA to participate in the 340B Rebate Model Pilot Program, which would have replaced upfront discounts with after-the-fact rebates. A nationwide preliminary injunction (Dec. 2025), HHS's withdrawal of its appeal (Jan. 2026), and the District of Maine's vacatur (Feb. 2026) wiped the pilot off the operational map. The RFI (Feb–April 2026) reopened the question. See `rebate-models`.\n4. **Distribution restrictions on specific products.** Some manufacturers limit 340B pricing to specific NDCs or carve out specialty products (e.g., Lilly's separate 60-day window for Alimta, Cyramza, Erbitux, Kisunla, Omvoh, Portrazza, Tauvid).\n\n## What entities can actually be required to do\n\nThe operational baseline an entity has to handle once a restriction lands:\n\n- Designate compliant contract pharmacies (or none, depending on the manufacturer's rules) in each TPA and on each clearinghouse.\n- Submit claims data through the manufacturer-specified clearinghouse on the manufacturer-specified timeline.\n- Track which dispenses qualify for 340B pricing under that manufacturer's policy in each state.\n- Reconcile the spread loss when a dispense that previously would have been 340B-eligible is no longer eligible.\n- Maintain the documentation HRSA might ask for at audit and the data ADR panels expect if a dispute is filed.\n\nFailure to comply typically results in (a) loss of 340B pricing on a manufacturer's products until cured, (b) recoupment demands for past dispenses, or (c) escalating warning letters. Lilly began sending warning letters to providers in early 2026 and, per AHA reporting, at least two members briefly lost 340B pricing while disputes were resolved.\n\n## What entities are doing in response\n\n- Filing ADR petitions against specific manufacturer restrictions. Through Q1 2026, the five most recent ADR panel decisions have sided with manufacturers — covered entities have not yet won under the revamped 2024 ADR process.\n- Pushing for state contract-pharmacy protection legislation. See `state-protection-laws`. Worth noting that exemptions often follow: Lilly, AbbVie, Amgen, Biogen, GSK, Organon, Sanofi, Sobi, and others have added various states to their exempt lists (typically applying only to FQHCs in-state).\n- Filing duplicate-discount and statutory-violation complaints with HRSA, which has limited enforcement bandwidth.\n- AHA's May 13, 2026 proposal to Lilly: drop the unilateral claims-data policy and join a neutral third-party clearinghouse overseen by HRSA. Lilly has not agreed.\n- Lobbying for federal legislation (PROTECT 340B, SUSTAIN, 340B PATIENTS Act, House FQHC bill) — none are currently moving through markup.\n\n## What's likely next\n\n- More manufacturers move from 340B ESP to Kalderos Truzo (Organon transitioned May 1, 2026; Gilead transitions June 15, 2026). This fragments the operational data-submission landscape.\n- Additional state laws prohibiting claims-data mandates (Washington was the first; Illinois HB 2371 contemplates similar provisions).\n- The 4th Circuit's West Virginia and Maryland decisions will probably hit a cert petition this term. If SCOTUS grants, it would unsettle every state-protection law on the books.\n- The Trump administration / HHS posture on rebates post-RFI is the biggest unknown. The RFI comment period closed April 20, 2026; HRSA has signaled a possible expanded pilot covering 2026 and 2027 IRA-negotiated drugs across 13 manufacturers. None of that is current law.",
+    "tags": ["manufacturer restriction", "contract pharmacy", "claims data", "ESP", "Truzo"],
+    "related_concept_ids": ["contract-pharmacies", "tpas-and-clearinghouses", "rebate-models", "state-protection-laws", "administrative-dispute-resolution"],
+    "gtm_notes": "This is the topic where Plenful's product story actually lands. Most covered entities are managing manufacturer restrictions through a mix of: (a) PDF notice letters from manufacturers, (b) CSV/Excel extracts from 340B ESP and Truzo, (c) emails from the TPA, (d) tribal knowledge in the 340B coordinator's head. None of that is queryable. The pitch: \"You probably have 40 manufacturers' restriction rules in 40 different formats. Plenful ingests those into tables — manufacturer × covered entity × product × state × effective date — and runs PQL formulas that flag when reality doesn't match the rule. Scheduled automations re-pull every week so the matrix doesn't go stale.\" Be specific about file ingest: PDFs from manufacturer notice pages, CSV exports from ESP, Truzo exports. Be specific about queries: \"Which of my contract pharmacies are non-compliant under Manufacturer X's new policy effective June 15?\" Honest limits: Plenful does not submit claims to ESP or Truzo on the entity's behalf. The entity's TPA or in-house pharmacy team still does the actual submission. Plenful sits one layer above — making sure what they submit matches what they should submit.",
+    "key_questions": [
+      "How many manufacturers currently impose claims-data submission as a condition of 340B pricing?",
+      "What's the practical difference between an ESP restriction and a Truzo restriction?",
+      "If Lilly suspends our 340B pricing, what's the cure path?",
+      "How do we quantify lost revenue from manufacturer restrictions for the CFO?"
+    ]
+  },
+  {
+    "id": "rebate-models",
+    "kind": "concept",
+    "title": "Rebate models",
+    "summary": "The proposed (and currently blocked) shift from upfront 340B discounts at point of purchase to after-the-fact manufacturer rebates — the biggest near-term structural change to 340B economics.",
+    "last_updated": "2026-05-15",
+    "status": "complete",
+    "body_markdown": "## What a rebate model would change\n\nToday, a covered entity buys a 340B-eligible drug at the ceiling price upfront. The entity carries the cash benefit immediately, regardless of payer. Under a rebate model, the entity would buy the drug at WAC (full price), submit claims data to the manufacturer (typically through a clearinghouse like 340B ESP or Kalderos Truzo), and receive the 340B discount as a rebate weeks or months later.\n\nThe shift sounds procedural. Operationally it is anything but:\n\n- Working capital impact: hospitals would float WAC pricing on covered drugs until rebate reconciliation — at the system level, this can run to hundreds of millions in cash.\n- Data exposure: every rebate request requires line-item claims data flowing to the manufacturer, on the manufacturer's timeline and clearinghouse.\n- Reconciliation overhead: AHA's RFI comment estimated $750M in new pharmacist FTE costs and $400M in operational overhead industrywide, against HRSA's revised burden estimate of five hours per entity per week.\n- Diversion of leverage: today, an entity that disputes a manufacturer's restriction can keep dispensing at 340B price while the dispute runs. Under a rebate model, the manufacturer holds the cash until reconciled.\n\n## The pilot and how it died\n\n- HRSA published the 340B Rebate Model Pilot Program in late 2025, approving rebate-model applications from nine manufacturers covering IRA Medicare-negotiated drugs and intended to begin January 1, 2026.\n- December 29, 2025: D. Maine grants AHA, Maine Hospital Association, and four safety-net systems a nationwide preliminary injunction. Court held HHS likely violated the APA — administrative record \"threadbare,\" no real weighing of cash-flow burden on covered entities.\n- January 7, 2026: 1st Circuit denies HHS's emergency stay request.\n- January 20, 2026: HHS withdraws its appeal.\n- February 5, 2026: HHS tells the court it will not pursue the pilot in its current form.\n- February 10, 2026: D. Maine enters a vacatur and remand order in AHA v. Kennedy, wiping HRSA's notice and the manufacturer approvals.\n- February 17, 2026: HRSA publishes an RFI in the Federal Register asking whether and how rebates could be implemented within statutory authority. Comment period extended to April 20, 2026.\n\n## Where things stand now\n\n- No operative rebate pilot. Covered entities continue to receive upfront 340B discounts. No mandatory rebate-model claims-data submission flows from a pilot.\n- HRSA has signaled (in extending the RFI) it is contemplating a broader rebate model that could cover the 13 manufacturers whose drugs are subject to IRA Medicare price negotiation in 2026 and 2027 — up to 25 drugs total. None of this is current law.\n- AHA's April 20 RFI comment urges HRSA to abandon any rebate mechanism entirely, citing >$1B in annual cost impact and operational disruption.\n- The Trump administration's HHS has discretion in how it interprets the statute. The next move (new rulemaking, a re-noticed pilot, abandoning the concept, or pursuing rebates via a different mechanism) is the single biggest open question in 340B operations.\n- Congressional posture: bipartisan opposition is significant — 90+ House members signed a Dear Colleague letter urging that no federal funds go to rebate-model implementation. Two House GOP members (Harshbarger, Carter) circulated a competing letter supporting rebates; Rep. Ezell (R-MS) signed and then publicly reversed on May 8, 2026. House FQHC-protection bill specifically bars rebates from being imposed on grantees.\n- Manufacturer posture: Novartis added Entresto to its rebate posture on April 1, 2026, but with the pilot vacated, the practical effect is zero — entities continue to receive the upfront discount.\n\n## What a covered entity should be doing today\n\n- Operationally: nothing different than the current upfront-discount workflow.\n- Strategically: model what your working-capital impact would be under a 30/60/90-day rebate float on the drugs you currently buy at 340B, by manufacturer. If a rebate model returns in any form, this analysis becomes the basis for either a treasury workflow or a hard line in advocacy.\n- Politically: comment on any future RFI, support the federal FQHC-protection bill if applicable, track state legislation that would prohibit manufacturer-imposed rebate-mechanic submissions.",
+    "tags": ["rebate model", "AHA v Kennedy", "pilot vacatur", "RFI", "IRA"],
+    "related_concept_ids": ["manufacturer-restrictions", "duplicate-discounts", "federal-legislation", "industry-actors"],
+    "gtm_notes": "On a discovery call, the rebate model is the topic that lets you demonstrate you're paying attention. The headline status is favorable to covered entities right now (pilot vacated, no operative rebate workflow). But operators are nervous because the policy could return in a new form, and they don't have a working-capital model ready. The line that works: \"The pilot is gone, but the data-mandate logic the pilot would have used is already alive in Lilly's and Novo's claims-data policies. If you're already submitting claims-level data within 45 days of dispense, you're 80% of the way to operating under a rebate model whether HRSA calls it one or not.\" That reframes the conversation toward data infrastructure. Plenful's fit: not on the rebate finance/treasury side (entities have ERPs and finance teams for that). Plenful sits on the upstream data side — ingesting ESP/Truzo submission files and manufacturer notices into structured tables, so when a rebate request requires a claims-level pull, the entity has the source-of-truth dataset already. Be honest: if the entity is happy with their TPA's data-export and their AP team's reconciliation, Plenful doesn't add much on rebate specifically. The pitch is for the entity that already feels the operational tax from Lilly/Novo claims-data submission and sees the rebate model as the same problem at larger scale.",
+    "key_questions": [
+      "Is there any operative 340B rebate pilot right now?",
+      "What's the next milestone after the April 20 RFI comment close?",
+      "How does the IRA Medicare drug list interact with the proposed rebate model?",
+      "What's our working-capital exposure if upfront discounts become 60-day rebates?"
+    ]
+  },
+  {
+    "id": "duplicate-discounts",
+    "kind": "concept",
+    "title": "Duplicate discounts",
+    "summary": "The prohibition on a manufacturer paying both a 340B discount and a Medicaid rebate on the same dispense — and the operational machinery covered entities run to prevent it.",
+    "last_updated": "2026-05-15",
+    "status": "complete",
+    "body_markdown": "## What the rule is\n\nSection 340B(a)(5)(A) prohibits manufacturers from being required to pay both the 340B discount and a Medicaid rebate on the same drug unit. In practice, this means a covered entity must choose, for Medicaid prescriptions, whether to:\n\n- **Carve in:** dispense at the 340B price and bill Medicaid at acquisition cost (or per state policy). The manufacturer pays the 340B discount and does not owe a Medicaid rebate. The entity has to tag the claim so the state Medicaid agency doesn't seek a rebate.\n- **Carve out:** purchase the drug outside 340B for any Medicaid patient, bill Medicaid normally, and let the manufacturer pay the Medicaid rebate. No 340B savings on that dispense.\n\nThe choice is typically made per state Medicaid program and recorded in OPAIS. Some entities carve in for fee-for-service Medicaid and carve out for managed Medicaid, or vice versa, depending on the state's claims-tagging infrastructure. Medicare Part B and Part D have separate (and increasingly contested) duplicate-discount overlays — particularly post-IRA, since IRA-negotiated drugs raise the same conceptual issue.\n\n## Where duplicate discounts actually happen\n\nThe statute is clean. The operations are not. Duplicate discounts happen because:\n\n- Claims arrive in the TPA without correct payer identification — the patient's primary insurance changed, or Medicaid is secondary, or it's a managed Medicaid plan that wasn't flagged.\n- The contract-pharmacy replenishment model creates a timing gap: the entity replenishes 340B inventory based on a TPA-flagged eligible dispense, but the underlying claim is later re-adjudicated and the Medicaid rebate flows on the original NDC.\n- Carve-in/carve-out decisions get inconsistently applied across the entity's sites, particularly when a new contract pharmacy is added.\n- State Medicaid agencies require specific tagging (340B-modifier on the claim, or an explicit NDC list) and the entity's claims system doesn't reliably apply it.\n- For grantees, the inventory-replenishment logic is even harder because they often bill at AAC + dispensing fee rather than ceiling-price-plus.\n\nHRSA audits routinely cite duplicate discounts as a finding. The 2026 GAO report on HRSA oversight (GAO-26-108784) specifically flagged duplicate-discount detection as one of the persistent gaps in HRSA's program-integrity activities.\n\n## Why manufacturers care so much\n\nThe whole post-2020 manufacturer push for claims-level data submission is framed (by manufacturers) as a duplicate-discount-prevention exercise. The argument: if manufacturers can see line-item claims data, they can compare against Medicaid rebate submissions and confirm a drug wasn't double-paid. The counterargument (AHA, RWC-340B, 340B Health): the statute does not authorize manufacturers to demand this data, the data submitted is far broader than what's needed for duplicate-discount detection, and the appropriate enforcer is HRSA, not the manufacturer.\n\nThe May 13, 2026 AHA letter proposing a neutral third-party clearinghouse overseen by HRSA is essentially an attempt to find a duplicate-discount-prevention mechanism that doesn't require manufacturers to receive raw claims data. Whether it goes anywhere is open.\n\n## What a serious operator does\n\n- Maintains a state-by-state Medicaid carve-in/carve-out map in OPAIS and in TPA configuration. Reviews quarterly.\n- Runs a duplicate-discount review process — daily or weekly depending on volume — that compares 340B-flagged claims against Medicaid claims (or against the state Medicaid agency's MCO submission file where available).\n- Documents corrective action when a duplicate discount is identified (typically by reversing the 340B replenishment and re-billing).\n- For managed Medicaid in particular: maintains MCO-by-MCO claim-tagging logic, since managed Medicaid duplicate discounts are the most common audit finding.\n- For Medicare Part B 340B-modifier claims: tracks the payer-side adjustments tied to recent CMS rule history.\n- Maintains audit-ready documentation that the carve-in/carve-out decisions and the claim-tagging logic were applied correctly.\n\n## Common audit findings\n\n- Medicaid carve-out claimed but 340B replenishment occurred (TPA didn't honor carve-out).\n- 340B-modifier missing on a claim that should have it, leading to a state Medicaid rebate request.\n- Managed Medicaid claims tagged inconsistently across MCOs.\n- New contract pharmacy site not configured for the entity's carve-in/carve-out posture.",
+    "tags": ["duplicate discount", "Medicaid", "carve-in", "carve-out", "audit"],
+    "related_concept_ids": ["hrsa-audits", "manufacturer-restrictions", "tpas-and-clearinghouses", "duplicate-discount-prevention"],
+    "gtm_notes": "Duplicate discount prevention is the cleanest Plenful pitch in 340B. The use case is concretely about reconciling claim-level data across multiple sources (TPA exports, claims system, Medicaid MMIS extracts, MCO rebate submissions) and flagging exceptions. That's exactly what file-ingest tables plus PQL plus scheduled automations were built for. Honest scoping: most entities have a TPA-supplied duplicate-discount report. The Plenful pitch is the layer above — when the TPA report doesn't reconcile to what the entity's claims team thinks happened, or when an MCO submission file arrives in a format the TPA doesn't natively ingest, or when a new state Medicaid policy requires re-tagging that the TPA hasn't built yet. \"Your TPA gives you a report. Plenful gives you the data warehouse and exception engine that sits next to the report, so when something doesn't tie out you don't have a forensic project on your hands.\" Be specific: PQL formulas comparing claim-level dispense data against MCO submission data; scheduled automation to re-pull MMIS extracts daily; multi-entity tenancy so a system with three Medicaid states can manage carve-in/carve-out logic separately per entity per state. Don't oversell — duplicate-discount prevention will never be a Plenful-only motion; it's a co-pilot to the TPA.",
+    "key_questions": [
+      "What's the practical difference between Medicaid FFS carve-in and managed Medicaid carve-out for our state?",
+      "How are we detecting duplicate discounts on managed Medicaid claims today?",
+      "Will the AHA-proposed neutral clearinghouse solve the duplicate-discount problem without requiring claims data to manufacturers?",
+      "What does HRSA expect to see in our duplicate-discount audit response?"
+    ]
+  },
+  {
+    "id": "responding-to-manufacturer-restriction",
+    "kind": "playbook",
+    "title": "Responding to a new manufacturer restriction",
+    "summary": "The operational sequence when a manufacturer announces a new 340B contract-pharmacy, claims-data, or distribution restriction.",
+    "last_updated": "2026-05-15",
+    "status": "complete",
+    "body_markdown": "## Situation\n\nA manufacturer publishes a notice — typically on its 340B program webpage, on the HRSA manufacturer-notices page, or pushed through 340B ESP / Kalderos Truzo — announcing a new or revised restriction. Common shapes:\n\n- A new contract-pharmacy designation policy (e.g., single contract pharmacy only).\n- A new or expanded claims-data submission requirement (e.g., Lilly's February 2026 in-house data mandate, Novo Nordisk's April 2026 mandate).\n- A move from 340B ESP to Kalderos Truzo (or vice versa).\n- A new state-exemption list update (e.g., Lilly's list of states where claims-data submission isn't required).\n- A new product added to an existing restriction.\n\nLead times vary from 30 days to 6 months. Lead times of 30 days or less are typical for claims-data effective dates and clearinghouse transitions, which is where covered entities get hurt.\n\n## Why it matters\n\nFailing to respond cleanly results in (a) loss of 340B pricing on that manufacturer's products until the entity cures, (b) recoupment demands for past 340B-priced dispenses that the manufacturer now claims were ineligible, (c) operational confusion at contract pharmacies that don't know which inventory rules apply, and (d) audit exposure if the entity continues to claim 340B savings on dispenses the manufacturer doesn't recognize.\n\nFor a mid-sized health system, a single manufacturer's restriction on a high-volume specialty drug can mean 7-figure annualized impact.\n\n## What to do, step by step\n\n1. **Capture the notice.** Save the manufacturer notice (PDF or webpage) to the central 340B program file. Note effective date, scope (in-house vs. contract pharmacy vs. medical benefit), product list, state exemptions, and submission mechanism (340B ESP, Kalderos Truzo, or other).\n2. **Classify the restriction type.** Use a consistent taxonomy across notices — contract-pharmacy designation, claims-data conditional, single-contract-pharmacy, wholly-owned exception, state-exempt, etc. The same manufacturer often has multiple coexisting policies; track each independently.\n3. **Assess applicability per covered-entity site.** For each 340B ID in OPAIS, determine: does the restriction apply to this entity type (hospital DSH vs. FQHC vs. RWHIV)? Does the state-exemption list apply? Are any of the entity's contract pharmacies affected?\n4. **Model the financial exposure.** Pull dispense volume and 340B savings by product (NDC) and by site, over the last 12 months, for the affected products. Project forward under the new restriction. Distinguish (a) revenue at risk, (b) revenue lost, and (c) revenue recoverable through state exemption or workaround.\n5. **Configure the operational response.** Depending on restriction type:\n   - **Contract-pharmacy designation:** update designations in the affected TPA, on 340B ESP / Truzo, and in the contract pharmacy's purchasing systems. Coordinate with the contract pharmacy on inventory split.\n   - **Claims-data conditional:** stand up the data extract from the source system (TPA, claims, pharmacy management) to the manufacturer-specified clearinghouse on the manufacturer-specified cadence (typically within 45 days of dispense). Test the first submission.\n   - **Clearinghouse transition (ESP → Truzo or vice versa):** register on the new platform, validate site-level data, configure user access, run parallel submissions during the transition window.\n6. **Decide on legal posture.** If the restriction appears statutorily unauthorized, options include: filing an ADR petition (recognizing the recent track record), engaging counsel on state-law remedies if the entity is in a state with a contract-pharmacy protection law, or coordinating with peers via the AHA, 340B Health, RWC-340B, NACHC, or other industry bodies for a coordinated response.\n7. **Document and audit-prep.** Record what was decided, when, and the financial impact. This is the documentation HRSA expects at audit and the documentation ADR panels expect if a dispute is filed.\n8. **Monitor for changes.** Restrictions get amended frequently. Establish a weekly or biweekly cadence to re-pull the manufacturer's notice page and the HRSA manufacturer-notices page; flag changes.\n\n## Watchouts\n\n- **Effective date confusion.** Notice publication date, effective date, and first claims-submission deadline are often different. Track all three.\n- **State exemption misapplication.** Several manufacturers' state-exemption lists apply only to FQHCs, not hospital DSH entities. Verify per-state, per-entity-type.\n- **Clearinghouse double-registration.** When a manufacturer moves from ESP to Truzo, some entities continue submitting to ESP out of habit, resulting in non-compliance under the new policy.\n- **Recoupment exposure on past dispenses.** Some restrictions reach back to dispenses before the effective date if the entity hasn't been compliant with prior data submission. Pull a 90-day look-back when a new restriction lands.\n- **Internal communication gap.** Contract pharmacies and dispensing sites often don't get the restriction memo. Push proactively to the operational layer.\n\n## Where Plenful fits\n\n- **File ingestion** of manufacturer notice PDFs and clearinghouse CSV exports into structured tables (manufacturer × policy type × effective date × scope × state exemptions × product list).\n- **PQL formulas** comparing the entity's current contract-pharmacy designations against each manufacturer's allowed designations, flagging mismatches.\n- **Scheduled automations** that re-pull manufacturer notice pages and HRSA's manufacturer-notices page weekly and flag changes.\n- **Multi-entity tenancy** for health systems with multiple 340B IDs — each ID's exposure modeled independently against the same manufacturer policy.\n- Where Plenful does NOT help: the actual claims-data submission to ESP or Truzo (the TPA or in-house pharmacy team owns that), legal strategy on state-law remedies, or ADR petition drafting. Be honest about this on the call.",
+    "tags": ["playbook", "manufacturer restriction", "contract pharmacy", "claims data", "ESP", "Truzo"],
+    "related_concept_ids": ["manufacturer-restrictions", "contract-pharmacies", "tpas-and-clearinghouses", "state-protection-laws"],
+    "gtm_notes": "This playbook is the most useful thing Plenful can hand an account exec heading into a meeting. The narrative arc maps cleanly onto where Plenful is and isn't useful. Lead with the diagnostic question: \"When Lilly's January notice landed, how long did it take you to know which of your sites were affected, what your annualized exposure was, and whether your TPA configurations matched the new policy?\" Most operators say weeks. That's the wedge. Don't pitch Plenful as the system of record for 340B — that's the TPA. Pitch it as the response surface when a manufacturer change lands and the existing tooling doesn't answer the questions fast enough. A specific demo path that works: ingest the Lilly January 2026 PDF, ingest the entity's most recent ESP submission CSV, run a PQL formula identifying claims that would no longer qualify under the new in-house data window — produce a quantified gap report.",
+    "key_questions": [
+      "When the last manufacturer restriction landed, how long until we had a financial impact estimate?",
+      "Which of our contract pharmacies are configured for which manufacturer's policy today?",
+      "If Lilly suspends our 340B pricing tomorrow, what's our cure path and how long does it take?",
+      "What's the documentation we need on file for HRSA audit on each manufacturer policy we comply with?"
+    ]
+  },
+  {
+    "id": "covered-entities",
+    "kind": "concept",
+    "title": "Covered entities",
+    "summary": "The defined list of healthcare providers eligible to purchase under 340B — hospitals (DSH, CAH, RRC, SCH, FSCH-Children's, FSCH-Cancer) and grantees (FQHC/look-alikes, RWHIV, Title X, STD/TB, HFM, urban Indian).",
+    "last_updated": "2026-05-15",
+    "status": "stub",
+    "body_markdown": "TODO: stub — Will cover each statutory category, eligibility criteria, the hospital-vs-grantee distinction and why manufacturers increasingly treat them differently (state exemptions often apply only to FQHCs).",
+    "tags": ["eligibility", "DSH", "FQHC", "RWHIV", "CAH"],
+    "related_concept_ids": ["what-is-340b", "eligibility-and-recertification"],
+    "gtm_notes": "TODO",
+    "key_questions": [
+      "Which provider types are statutorily eligible for 340B?",
+      "Why do manufacturers treat hospital covered entities differently from FQHCs?",
+      "What disqualifies a hospital from continued 340B eligibility?"
+    ]
+  },
+  {
+    "id": "gpo-prohibition",
+    "kind": "concept",
+    "title": "GPO prohibition",
+    "summary": "The rule barring DSH, FSCH-Children's, and FSCH-Cancer hospitals from using a group purchasing organization to acquire covered outpatient drugs.",
+    "last_updated": "2026-05-15",
+    "status": "stub",
+    "body_markdown": "TODO: stub — Will cover the statutory basis, why it exists, who's bound (and who isn't — CAH/RRC/SCH not bound), common compliance failures, and audit exposure.",
+    "tags": ["GPO", "purchasing", "compliance"],
+    "related_concept_ids": ["covered-entities", "hrsa-audits"],
+    "gtm_notes": "TODO",
+    "key_questions": [
+      "Which hospital types are subject to the GPO prohibition?",
+      "What counts as a GPO contract for 340B purposes?",
+      "What's the standard remediation when a GPO violation is identified at audit?"
+    ]
+  },
+  {
+    "id": "eligibility-and-recertification",
+    "kind": "concept",
+    "title": "Eligibility and annual recertification",
+    "summary": "The annual cycle covered entities run to confirm continued 340B eligibility in OPAIS — entity-type-specific, with separate windows for hospitals and grantees.",
+    "last_updated": "2026-05-15",
+    "status": "stub",
+    "body_markdown": "TODO: stub — Will cover the recertification windows (grantees Feb–Mar, hospitals separate window), what triggers re-eligibility review, AO/PC account requirements, and consequences of missed recertification (termination from program).",
+    "tags": ["recertification", "OPAIS", "eligibility"],
+    "related_concept_ids": ["covered-entities", "opais", "annual-recertification-cycle"],
+    "gtm_notes": "TODO",
+    "key_questions": [
+      "When is the 2026 grantee recertification window and what are the requirements?",
+      "What changes mid-year require an OPAIS update?",
+      "What's the consequence of failing to recertify on time?"
+    ]
+  },
+  {
+    "id": "opais",
+    "kind": "concept",
+    "title": "OPAIS",
+    "summary": "The HRSA Office of Pharmacy Affairs Information System — the public registration database for covered entities, child sites, and contract pharmacy arrangements.",
+    "last_updated": "2026-05-15",
+    "status": "stub",
+    "body_markdown": "TODO: stub — Will cover what OPAIS shows publicly, how registrations work, child-site logic, contract-pharmacy designations, Authorizing Official and Primary Contact roles.",
+    "tags": ["OPAIS", "registration", "HRSA"],
+    "related_concept_ids": ["covered-entities", "eligibility-and-recertification"],
+    "gtm_notes": "TODO",
+    "key_questions": [
+      "What's actually visible to manufacturers on OPAIS?",
+      "How does a child-site registration differ from a parent registration?",
+      "What's the timeline for an OPAIS change to be reflected to manufacturers?"
+    ]
+  },
+  {
+    "id": "hrsa-audits",
+    "kind": "concept",
+    "title": "HRSA audits",
+    "summary": "HRSA's program-integrity audits of covered entities — selection criteria, scope, common findings, corrective action plans, and remediation.",
+    "last_updated": "2026-05-15",
+    "status": "stub",
+    "body_markdown": "TODO: stub — Will cover audit selection (risk-based and random), the DRL, common findings (duplicate discount, GPO violation, child-site eligibility, contract-pharmacy compliance), CAP process, re-audit failure rate (~68% in recent data), and the FY26 DRL changes.",
+    "tags": ["audit", "HRSA", "compliance", "DRL"],
+    "related_concept_ids": ["duplicate-discounts", "gpo-prohibition", "preparing-for-hrsa-audit"],
+    "gtm_notes": "TODO",
+    "key_questions": [
+      "What triggers HRSA audit selection?",
+      "What are the top findings in FY2025 audits?",
+      "What does the 68% re-audit failure rate indicate about corrective action plans?"
+    ]
+  },
+  {
+    "id": "administrative-dispute-resolution",
+    "kind": "concept",
+    "title": "Administrative Dispute Resolution (ADR)",
+    "summary": "The federal process for covered entities and manufacturers to dispute 340B issues administratively — revamped in 2024, with five consecutive manufacturer-favorable decisions through Q1 2026.",
+    "last_updated": "2026-05-15",
+    "status": "stub",
+    "body_markdown": "TODO: stub — Will cover the revamped 2024 ADR rule, panel composition, what disputes qualify, the petitioning process, decision summaries, and the current covered-entity track record (0-for-5 through early 2026).",
+    "tags": ["ADR", "dispute resolution", "panel"],
+    "related_concept_ids": ["manufacturer-restrictions", "contract-pharmacies"],
+    "gtm_notes": "TODO",
+    "key_questions": [
+      "What kinds of disputes can be filed through ADR?",
+      "Why are panels consistently siding with manufacturers under the revamped rule?",
+      "Is filing an ADR petition still tactically useful even given the track record?"
+    ]
+  },
+  {
+    "id": "tpas-and-clearinghouses",
+    "kind": "concept",
+    "title": "TPAs and clearinghouses",
+    "summary": "The vendor layer between covered entities and manufacturers — TPAs (Apexus, Sentry, Macro Helix, PharmaForce) handle covered-entity claims processing; clearinghouses (340B ESP, Kalderos Truzo) handle manufacturer-side data collection.",
+    "last_updated": "2026-05-15",
+    "status": "stub",
+    "body_markdown": "TODO: stub — Will cover the distinction between TPAs and clearinghouses, the 340B ESP / Second Sight Solutions vs. Kalderos Truzo split on the manufacturer side, recent manufacturer transitions (Alkermes, Puma, Organon, Gilead → Truzo), and the operational implications of multi-clearinghouse compliance.",
+    "tags": ["TPA", "clearinghouse", "ESP", "Truzo", "Apexus"],
+    "related_concept_ids": ["manufacturer-restrictions", "contract-pharmacies", "duplicate-discounts"],
+    "gtm_notes": "TODO",
+    "key_questions": [
+      "What's the practical difference between a TPA and a clearinghouse?",
+      "What changes operationally when a manufacturer moves from ESP to Truzo?",
+      "Can a covered entity refuse to submit data to a clearinghouse it doesn't have a contract with?"
+    ]
+  },
+  {
+    "id": "state-protection-laws",
+    "kind": "concept",
+    "title": "State 340B protection laws",
+    "summary": "The wave of state statutes since 2023 protecting contract-pharmacy access and (in Washington and contemplated elsewhere) prohibiting claims-data mandates — and the developing federal-preemption circuit split.",
+    "last_updated": "2026-05-15",
+    "status": "stub",
+    "body_markdown": "TODO: stub — Will cover the 25+ state laws enacted, the typology (contract-pharmacy access, provider reporting, anti-data-mandate), the litigation map (5th/7th/8th Circuits siding with states; 4th Circuit siding with manufacturers in WV and MD), DOJ amicus posture, and the SCOTUS cert posture.",
+    "tags": ["state law", "preemption", "contract pharmacy", "circuit split"],
+    "related_concept_ids": ["contract-pharmacies", "manufacturer-restrictions"],
+    "gtm_notes": "TODO",
+    "key_questions": [
+      "Which states have enacted 340B contract-pharmacy access laws and which have been challenged?",
+      "What's the current circuit-split status?",
+      "What does an entity in a non-protecting state actually have available?"
+    ]
+  },
+  {
+    "id": "federal-legislation",
+    "kind": "concept",
+    "title": "Federal 340B legislation",
+    "summary": "Currently moving (and currently stalled) federal bills — SUSTAIN 340B Act, PROTECT 340B Act, 340B PATIENTS Act, House FQHC protection bill, and Dear Colleague letters.",
+    "last_updated": "2026-05-15",
+    "status": "stub",
+    "body_markdown": "TODO: stub — Will cover SUSTAIN (Senate G6 working group, currently stalled), PROTECT 340B (Carter et al., PBM focus), 340B PATIENTS Act (Welch), House FQHC bill, and the Dear Colleague signaling around rebate model funding.",
+    "tags": ["SUSTAIN", "PROTECT 340B", "PATIENTS Act", "FQHC", "Congress"],
+    "related_concept_ids": ["rebate-models", "industry-actors"],
+    "gtm_notes": "TODO",
+    "key_questions": [
+      "What's the most likely 340B legislation to actually move in 2026?",
+      "What does SUSTAIN actually do that current law doesn't?",
+      "How does the Senate HELP Committee posture matter here?"
+    ]
+  },
+  {
+    "id": "industry-actors",
+    "kind": "concept",
+    "title": "Industry actors",
+    "summary": "Who speaks for whom — AHA, 340B Health, AHF, RWC-340B, NACHC, ASHP, PhRMA, NACDS, AAMC, NACDS, and the major covered-entity classes and manufacturer trade groups.",
+    "last_updated": "2026-05-15",
+    "status": "stub",
+    "body_markdown": "TODO: stub — Will cover each major stakeholder's constituency, positioning, recent material statements (AHA April 20 RFI comment, ASCO May 5 policy update, etc.), and how to read who's actually moving the conversation.",
+    "tags": ["AHA", "340B Health", "RWC-340B", "PhRMA", "NACHC"],
+    "related_concept_ids": ["federal-legislation", "manufacturer-restrictions", "rebate-models"],
+    "gtm_notes": "TODO",
+    "key_questions": [
+      "Who's the most credible voice on the covered-entity side right now?",
+      "How does ASCO's recent policy update fit in?",
+      "What's PhRMA's position on the AHA neutral-clearinghouse proposal?"
+    ]
+  },
+  {
+    "id": "preparing-for-hrsa-audit",
+    "kind": "playbook",
+    "title": "Preparing for an HRSA audit",
+    "summary": "What changes when the audit notification letter arrives — assembly of records, child-site verification, contract-pharmacy reconciliation, and engagement strategy.",
+    "last_updated": "2026-05-15",
+    "status": "stub",
+    "body_markdown": "TODO: stub — Will cover the 30-day notification window, the FY26 DRL changes, child-site eligibility documentation, contract-pharmacy claims sampling, common findings to pre-test against, and the CAP-to-closure path.",
+    "tags": ["audit", "playbook", "HRSA", "DRL"],
+    "related_concept_ids": ["hrsa-audits", "duplicate-discounts", "gpo-prohibition"],
+    "gtm_notes": "TODO",
+    "key_questions": [
+      "What does the FY26 DRL ask for that FY25 didn't?",
+      "How should we sample contract-pharmacy claims for self-testing pre-audit?",
+      "What's the typical CAP timeline from finding to closure?"
+    ]
+  },
+  {
+    "id": "onboarding-clearinghouse-transition",
+    "kind": "playbook",
+    "title": "Onboarding a clearinghouse transition",
+    "summary": "When a manufacturer moves from 340B ESP to Kalderos Truzo (or vice versa) on a compressed deadline — the operational sequence to maintain 340B pricing access.",
+    "last_updated": "2026-05-15",
+    "status": "stub",
+    "body_markdown": "TODO: stub — Will cover the Alkermes/Puma/Organon/Gilead transition patterns, registration on the new platform, parallel-submission window, contract pharmacy coordination, and the cutover risk.",
+    "tags": ["playbook", "clearinghouse", "ESP", "Truzo"],
+    "related_concept_ids": ["tpas-and-clearinghouses", "manufacturer-restrictions"],
+    "gtm_notes": "TODO",
+    "key_questions": [
+      "What does the new clearinghouse expect for site-level validation?",
+      "How do we run parallel submissions during a transition window?",
+      "What happens if a dispense falls in the cutover gap?"
+    ]
+  },
+  {
+    "id": "duplicate-discount-prevention",
+    "kind": "playbook",
+    "title": "Duplicate-discount prevention",
+    "summary": "The daily operational machinery to keep duplicate discounts from happening — carve-in/carve-out posture, MCO-level tagging, MMIS reconciliation, and audit-ready documentation.",
+    "last_updated": "2026-05-15",
+    "status": "stub",
+    "body_markdown": "TODO: stub — Will cover state-by-state carve posture, claim-tagging logic across MCOs, MMIS extract reconciliation cadence, exception handling, and Medicare Part B 340B-modifier overlay.",
+    "tags": ["playbook", "duplicate discount", "Medicaid", "carve"],
+    "related_concept_ids": ["duplicate-discounts", "hrsa-audits", "tpas-and-clearinghouses"],
+    "gtm_notes": "TODO",
+    "key_questions": [
+      "How often should we be running our duplicate-discount review?",
+      "How do we handle a state Medicaid MCO that doesn't submit 340B-modifier consistently?",
+      "What's our exposure on Medicare Part B 340B-modifier claims under current CMS policy?"
+    ]
+  },
+  {
+    "id": "annual-recertification-cycle",
+    "kind": "playbook",
+    "title": "The annual recertification cycle",
+    "summary": "Who does what and when during the OPAIS recertification window — AO and PC account setup, site list verification, contract-pharmacy designation sync, and missed-window remediation.",
+    "last_updated": "2026-05-15",
+    "status": "stub",
+    "body_markdown": "TODO: stub — Will cover the grantee Feb–Mar window, hospital separate window, AO and PC role requirements, site list checks, the OPAIS workflow, and what to do if the window is missed.",
+    "tags": ["playbook", "recertification", "OPAIS"],
+    "related_concept_ids": ["eligibility-and-recertification", "opais"],
+    "gtm_notes": "TODO",
+    "key_questions": [
+      "Who in our organization owns recertification end to end?",
+      "What's the consequence of missing the recertification window?",
+      "How do we reconcile OPAIS site list against actual contract-pharmacy designations?"
+    ]
+  }
+]
